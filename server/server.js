@@ -16,7 +16,9 @@ app.use(cors({
         "Pragma"
     ],
     credentials: true,
-}))
+}));
+app.use(cookieParser());
+app.use(express.json());
 
 
 app.get("/", (req, res) => {
