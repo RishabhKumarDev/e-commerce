@@ -5,10 +5,21 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "DELETE", "PATCH", "PUT"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "Cache-Control",
+        "Expires",
+        "Pragma"
+    ],
+    credentials: true,
+}))
 
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("HIIIII");
 });
 
