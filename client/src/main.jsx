@@ -7,12 +7,23 @@ import "./index.css";
 
 // components...
 import App from "./App.jsx";
+import AuthLogin from "./pages/auth/login";
+import AuthLayout from "./components/auth/Layout";
+import AuthRegister from "./pages/auth/Register";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-    children: [],
+    Component: App,
+    children: [
+      {
+        Component: AuthLayout,
+        children: [
+          { path:"login",  Component: AuthLogin },
+          { path: "register", Component: AuthRegister },
+        ],
+      },
+    ],
   },
 ]);
 
@@ -21,5 +32,5 @@ createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </StrictMode> 
+  </StrictMode>
 );
