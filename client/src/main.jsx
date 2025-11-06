@@ -15,27 +15,60 @@ import AdminOrders from "./pages/admin-view/Orders";
 import AdminProducts from "./pages/admin-view/Projucts";
 import AdminLayout from "./components/admin-view/layout";
 import AdminFeatures from "./pages/admin-view/Features";
+import ShoppingLayout from "./components/shopping-view/Layout";
+import NotFoundPage from "./pages/not-found/Index";
+import ShoppingHome from "./pages/shopping-view/Home";
+import ShoppingAccount from "./pages/shopping-view/Account";
+import ShoppingListing from "./pages/shopping-view/Listing";
+import ShoppingCheckout from "./pages/shopping-view/Checkout";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
+    ErrorBoundary: NotFoundPage,
     children: [
       {
-        Component: AuthLayout,
+        ErrorBoundary: NotFoundPage,
         children: [
-          { path: "login", Component: AuthLogin },
-          { path: "register", Component: AuthRegister },
-        ],
-      },
-      {
-        path: "/admin",
-        Component: AdminLayout,
-        children: [
-          { path: "dashboard", Component: AdimnDashboard },
-          { path: "orders", Component: AdminOrders },
-          { path: "products", Component: AdminProducts },
-          { path: "features", Component: AdminFeatures },
+          // Auth Section
+          {
+            Component: AuthLayout,
+            children: [
+              { path: "login", Component: AuthLogin },
+              { path: "register", Component: AuthRegister },
+            ],
+          },
+          // Admin Section
+          {
+            ErrorBoundary: NotFoundPage,
+            path: "/admin",
+            Component: AdminLayout,
+            children: [
+              { path: "dashboard", Component: AdimnDashboard },
+              { path: "orders", Component: AdminOrders },
+              { path: "products", Component: AdminProducts },
+              { path: "features", Component: AdminFeatures },
+            ],
+          },
+          // Shopping Section
+          {
+            path: "/shopping",
+            Component: ShoppingLayout,
+            children: [
+              {
+                ErrorBoundary: NotFoundPage,
+                children: [
+                  { path: "home", Component: ShoppingHome },
+                  { path: "checkout", Component: ShoppingCheckout },
+                  { path: "listing", Component: ShoppingListing },
+                  { path: "account", Component: ShoppingAccount },
+                ],
+              },
+            ],
+          },
+          // Catch route -- Not found route;
+          { path: "*", Component: NotFoundPage },
         ],
       },
     ],
