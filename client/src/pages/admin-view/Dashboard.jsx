@@ -1,4 +1,4 @@
-function AdimnDashboard() {
+function AdminDashboard() {
     return ( 
         <div>
             <h1> Admin Dashboard</h1>
@@ -6,4 +6,4 @@ function AdimnDashboard() {
      );
 }
 
-export default AdimnDashboard;
+export default AdminDashboard;
