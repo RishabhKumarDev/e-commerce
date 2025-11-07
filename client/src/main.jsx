@@ -10,7 +10,6 @@ import App from "./App.jsx";
 import AuthLogin from "./pages/auth/login";
 import AuthLayout from "./components/auth/Layout";
 import AuthRegister from "./pages/auth/Register";
-import AdimnDashboard from "./pages/admin-view/Dashboard";
 import AdminOrders from "./pages/admin-view/Orders";
 import AdminProducts from "./pages/admin-view/Projucts";
 import AdminLayout from "./components/admin-view/layout";
@@ -21,13 +20,26 @@ import ShoppingHome from "./pages/shopping-view/Home";
 import ShoppingAccount from "./pages/shopping-view/Account";
 import ShoppingListing from "./pages/shopping-view/Listing";
 import ShoppingCheckout from "./pages/shopping-view/Checkout";
+import CheckAuth from "./components/common/CheckAuth";
+import AdminDashboard from "./pages/admin-view/Dashboard";
+import Unauthorized from "./pages/un-auth/Unauthorized";
+
+const isAuthanticated = true;
+const user = {
+  role: "admi",
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: App,
+    element: (
+      <CheckAuth isAuthanticated={isAuthanticated} user={user}>
+        <App />
+      </CheckAuth>
+    ),
     ErrorBoundary: NotFoundPage,
     children: [
+      {path:"/unauth-page", Component: Unauthorized},
       {
         ErrorBoundary: NotFoundPage,
         children: [
@@ -45,7 +57,7 @@ const router = createBrowserRouter([
             path: "/admin",
             Component: AdminLayout,
             children: [
-              { path: "dashboard", Component: AdimnDashboard },
+              { path: "dashboard", Component: AdminDashboard },
               { path: "orders", Component: AdminOrders },
               { path: "products", Component: AdminProducts },
               { path: "features", Component: AdminFeatures },

@@ -1,0 +1,55 @@
+import { Navigate, useLocation } from "react-router-dom";
+
+function CheckAuth({ isAuthanticated, user, children }) {
+  const location = useLocation();
+
+  // user not authanticated trying to access normal page
+  if (
+    !isAuthanticated &&
+    !(
+      location.pathname.includes("/login") ||
+      location.pathname.includes("/register")
+    )
+  ) {
+    return <Navigate to="/login" />;
+  }
+
+  //   user authanticated trying to access auth page
+  if (
+    isAuthanticated &&
+    (location.pathname.includes("/login") ||
+      location.pathname.includes("/register"))
+  ) {
+    if (user?.role === "admin") {
+      return <Navigate to="/admin/dashboard" />;
+    } else {
+      return <Navigate to="/shopping/home" />;
+    }
+  }
+
+  // user is normal trying to access admin page
+
+  if (
+    isAuthanticated &&
+    user?.role !== "admin" &&
+    location.pathname.includes("admin")
+  ) {
+    return <Navigate to="/unauth-page" />;
+  }
+
+  // user is admin trying to access normal page
+
+  if (
+    isAuthanticated &&
+    user?.role === "admin" &&
+    location.pathname.includes("shopping")
+  ) {
+    return <Navigate to="/admin/dashboard" />;
+  }
+
+  // if nothing match just render the children
+
+  return <>{children}</>;
+}
+
+export default CheckAuth;
