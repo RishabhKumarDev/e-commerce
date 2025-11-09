@@ -24,7 +24,7 @@ import CheckAuth from "./components/common/CheckAuth";
 import AdminDashboard from "./pages/admin-view/Dashboard";
 import Unauthorized from "./pages/un-auth/Unauthorized";
 
-const isAuthanticated = true;
+const isAuthanticated = false;
 const user = {
   role: "admi",
 };
