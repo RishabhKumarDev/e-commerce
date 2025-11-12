@@ -1,5 +1,12 @@
 import mongoose from 'mongoose';
 
+
+if (process.env.NODE_ENV === 'production') {
+  mongoose.set('autoIndex', false);
+} else {
+  mongoose.set('autoIndex', true);
+}
+
 export default async () => {
     try {
         const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URL}`);
