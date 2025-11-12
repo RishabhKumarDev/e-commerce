@@ -5,7 +5,7 @@ import { asyncHandler } from '../../utils/asyncHandler.js';
 const router = Router({ mergeParams: true });
 
 
-router.route("/registerUser").post(asyncHandler(registerUser))
+router.route("/register").post(asyncHandler(registerUser))
 
 
 
