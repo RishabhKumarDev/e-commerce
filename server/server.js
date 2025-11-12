@@ -25,4 +25,11 @@ app.get("/", (req, res) => {
     res.send("HIIIII");
 });
 
+// routes
+import authRouter from './routes/auth/auth.routes.js';
+
+app.use("/api/auth", authRouter);
+
+
+
 export default app;
