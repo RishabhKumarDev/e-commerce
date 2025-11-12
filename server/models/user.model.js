@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-    name: {
+    userName: {
         type: String,
         required: true,
         minLength: 3,
-        maxLength: 10,
+        maxLength: 25,
         unique: true,
 
     },
@@ -18,8 +18,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minLength: [6, "password has to be atleast 6 character long"],
-        maxLength: [12, "Password is too long"]
     },
     role: {
         type: String,
