@@ -23,6 +23,7 @@ import ShoppingCheckout from "./pages/shopping-view/Checkout";
 import CheckAuth from "./components/common/CheckAuth";
 import AdminDashboard from "./pages/admin-view/Dashboard";
 import Unauthorized from "./pages/un-auth/Unauthorized";
+import { Toaster } from "@/components/ui/sonner";
 
 const isAuthanticated = false;
 const user = {
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
     ),
     ErrorBoundary: NotFoundPage,
     children: [
-      {path:"/unauth-page", Component: Unauthorized},
+      { path: "/unauth-page", Component: Unauthorized },
       {
         ErrorBoundary: NotFoundPage,
         children: [
@@ -91,6 +92,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
+      <Toaster richColors position="top-center" />
     </Provider>
   </StrictMode>
 );

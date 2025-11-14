@@ -4,6 +4,7 @@ import { registerUser } from "@/features/auth/authSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { data, Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const initialValue = {
   userName: "",
@@ -23,9 +24,11 @@ function AuthRegister() {
       const data = await dispatch(registerUser(formData)).unwrap();
       console.log(data);
       if (data?.success) {
+        toast.success(data.message);
         navigate("/login");
       }
     } catch (error) {
+     toast.error(error?.message || "Registration failed. Please try again.");
       console.log(error);
     }
   };
