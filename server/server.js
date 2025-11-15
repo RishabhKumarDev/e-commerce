@@ -26,8 +26,11 @@ app.get("/", (req, res) => {
 });
 
 // routes
+//routes import
 import authRouter from './routes/auth/auth.routes.js';
 
+
+//router deceleration
 app.use("/api/auth", authRouter);
 
 
