@@ -28,11 +28,18 @@ app.get("/", (req, res) => {
 // routes
 //routes import
 import authRouter from './routes/auth/auth.routes.js';
+import { ApiResponse } from './utils/ApiResponse.js';
 
 
 //router deceleration
 app.use("/api/auth", authRouter);
 
 
+// global Error Handler (middleware);
 
+app.use((err, req, res, next) => {
+
+    res.status(err.statusCode || 500)
+        .json(new ApiResponse(err.statusCode || 500, null, err.message))
+})
 export default app;
