@@ -22,14 +22,12 @@ function AuthRegister() {
 
     try {
       const data = await dispatch(registerUser(formData)).unwrap();
-      console.log(data);
-      if (data?.success) {
-        toast.success(data.message);
-        navigate("/login");
-      }
+      toast.success(data.message);
+      navigate("/login");
     } catch (error) {
-     toast.error(error?.message || "Registration failed. Please try again.");
-      console.log(error);
+      toast.error(
+        error?.data?.message || "Registration failed. Please try again."
+      );
     }
   };
   return (
