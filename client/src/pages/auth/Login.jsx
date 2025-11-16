@@ -1,7 +1,10 @@
 import CommonForm from "@/components/common/Form";
 import { loginFormConfig } from "@/config/formConfig";
+import { loginUser } from "@/features/auth/authSlice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const initialValue = {
   email: "",
@@ -9,7 +12,17 @@ const initialValue = {
 };
 function AuthLogin() {
   const [formData, setFormData] = useState(initialValue);
-  const onSubmit = (formData) => {};
+  const dispatch = useDispatch();
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const data = await dispatch(loginUser(formData)).unwrap();
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.data.message || "Something went worong");
+    }
+  };
   return (
     <>
       <div className="w-full max-w-md mx-auto space-y-6">

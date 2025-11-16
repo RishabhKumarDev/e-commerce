@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
-function CheckAuth({ isAuthanticated, user, children }) {
+function CheckAuth({ children }) {
   const location = useLocation();
 
+  const { isAuthanticated, user } = useSelector((state) => state.auth);
+  
   // user not authanticated trying to access normal page
   if (
     !isAuthanticated &&

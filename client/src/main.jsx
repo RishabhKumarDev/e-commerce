@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./app/store";
 import "./index.css";
 
@@ -25,16 +25,17 @@ import AdminDashboard from "./pages/admin-view/Dashboard";
 import Unauthorized from "./pages/un-auth/Unauthorized";
 import { Toaster } from "@/components/ui/sonner";
 
-const isAuthanticated = false;
-const user = {
-  role: "admi",
-};
+// const isAuthanticated = false;
+// const user = {
+//   role: "admi",
+// };
 
+// const {isAuthanticated,user}=useSelector(state => state.auth);
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <CheckAuth isAuthanticated={isAuthanticated} user={user}>
+      <CheckAuth>
         <App />
       </CheckAuth>
     ),
