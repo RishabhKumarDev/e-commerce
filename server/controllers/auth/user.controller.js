@@ -55,4 +55,24 @@ const loginUser = async (req, res) => {
 }
 
 
-export { registerUser, loginUser }
+const logoutUser = async (req, res) => {
+    res
+        .clearCookie("token")
+        .status(200)
+        .json(new ApiResponse(200, {}, "Logout successful"))
+}
+
+const authMiddleware = async (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        throw new ApiError(401, "Unauthorized User")
+    }
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        throw new ApiError(401, "Unauthorized User")
+    }
+}
+export { registerUser, loginUser, logoutUser, authMiddleware }
