@@ -1,3 +1,5 @@
+import { Loader } from "@/components/common/Loader";
+import { Skeleton } from "@/components/ui/skeleton";
 import { checkAuth } from "@/features/auth/authSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,10 +8,9 @@ import { Navigate, useLocation } from "react-router-dom";
 function CheckAuth({ children }) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { isAuthanticated, user, isLoading } = useSelector(
+  const { isAuthanticated, user,  } = useSelector(
     (state) => state.auth
   );
-
 
   useEffect(() => {
     if (!isAuthanticated && !user) {
@@ -17,14 +18,10 @@ function CheckAuth({ children }) {
     }
   }, []);
 
+  let isLoading = true;
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        loading.....
-      </div>
-    );
+    return <Loader />;
   }
-
 
   // user not authanticated trying to access normal page
   if (
