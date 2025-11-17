@@ -1,11 +1,31 @@
-import { useSelector } from "react-redux";
+import { checkAuth } from "@/features/auth/authSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 function CheckAuth({ children }) {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { isAuthanticated, user, isLoading } = useSelector(
+    (state) => state.auth
+  );
 
-  const { isAuthanticated, user } = useSelector((state) => state.auth);
-  
+
+  useEffect(() => {
+    if (!isAuthanticated && !user) {
+      dispatch(checkAuth());
+    }
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        loading.....
+      </div>
+    );
+  }
+
+
   // user not authanticated trying to access normal page
   if (
     !isAuthanticated &&

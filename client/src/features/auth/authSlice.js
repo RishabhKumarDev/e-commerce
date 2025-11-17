@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const initialState = {
     isAuthanticated: false,
-    isLoading: false,
+    isLoading: true,
     user: null,
 }
 
@@ -21,14 +21,30 @@ export const registerUser = createAsyncThunk("/auth/register", async (formData, 
 // login User
 export const loginUser = createAsyncThunk("/auth/login", async (formData, thunkAPI) => {
     try {
-        const response = await axios.post("http://localhost:5000/api/auth/login", formData, { withCredentials: true })
-        console.log(response);
+        const response = await axios.post("http://localhost:5000/api/auth/login",
+            formData,
+            { withCredentials: true }
+        )
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response)
     }
 })
 
+// check Auth 
+export const checkAuth = createAsyncThunk("/auth/check-auth", async (_, thunkAPI) => {
+    try {
+        const response = await axios.get("http://localhost:5000/api/auth/check-auth",
+            {
+                withCredentials: true,
+                headers: { "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response);
+    }
+})
 
 const authSlice = createSlice({
     name: "auth",
@@ -60,6 +76,19 @@ const authSlice = createSlice({
                 state.isAuthanticated = true;
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.user = null;
+                state.isAuthanticated = false;
+            })
+            .addCase(checkAuth.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(checkAuth.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.user = action.payload.data;
+                state.isAuthanticated = true;
+            })
+            .addCase(checkAuth.rejected, (state,action)=>{
                 state.isLoading = false;
                 state.user = null;
                 state.isAuthanticated = false;
