@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { LogOut, TextAlignJustify } from "lucide-react";
 
-function AdminHeader() {
+function AdminHeader({ setOpen }) {
   return (
     <header className="flex items-center justify-between px-3 py-4 ">
-      <Button className="lg:hidden sm:block">
+      <Button onClick={() => setOpen(true)} className="lg:hidden sm:block">
         <TextAlignJustify />
         <span className="sr-only">Toggle Menu</span>
       </Button>

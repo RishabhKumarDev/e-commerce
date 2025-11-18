@@ -1,4 +1,10 @@
 import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import {
   ChartNoAxesCombined,
   LayoutDashboard,
   ListOrdered,
@@ -27,7 +33,7 @@ const adminSidebarMenuItems = [
   },
 ];
 
-function MenuItems() {
+function MenuItems({ setOpen }) {
   const navigate = useNavigate();
 
   return (
@@ -36,7 +42,10 @@ function MenuItems() {
         <div
           className="flex items-center gap-2 px-3 py-2 text-lg rounded-md cursor-pointer text-muted-foreground hover:bg-muted hover:text-foreground"
           key={menuItem.id}
-          onClick={() => navigate(menuItem.path)}
+          onClick={() => {
+            navigate(menuItem.path);
+            setOpen ? setOpen(false) : null;
+          }}
         >
           {menuItem.icon}
           <span>{menuItem.label}</span>
@@ -46,11 +55,30 @@ function MenuItems() {
   );
 }
 
-function AdminSidebar() {
+function AdminSidebar({ open, setOpen }) {
   const navigate = useNavigate();
 
   return (
     <>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent side="left" className="w-64 ">
+          <div className="flex flex-col h-full p-6">
+            <SheetHeader className="border-b">
+              <SheetTitle
+                onClick={() => {
+                  navigate("/admin/dashboard");
+                  setOpen ? setOpen(false) : null;
+                }}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                <ChartNoAxesCombined size={25} />
+                <span className="text-xl font-bold">Admin Panel</span>
+              </SheetTitle>
+            </SheetHeader>
+            <MenuItems setOpen={setOpen} />
+          </div>
+        </SheetContent>
+      </Sheet>
       <aside className="flex-col hidden w-64 p-6 border-r bg-background lg:flex">
         <div
           onClick={() => navigate("/admin/dashboard")}
