@@ -8,7 +8,7 @@ import { Navigate, useLocation } from "react-router-dom";
 function CheckAuth({ children }) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { isAuthanticated, user,  } = useSelector(
+  const { isAuthanticated, user, isLoading } = useSelector(
     (state) => state.auth
   );
 
@@ -18,7 +18,6 @@ function CheckAuth({ children }) {
     }
   }, []);
 
-  let isLoading = true;
   if (isLoading) {
     return <Loader />;
   }
