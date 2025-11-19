@@ -11,7 +11,7 @@ import AuthLogin from "./pages/auth/login";
 import AuthLayout from "./components/auth/Layout";
 import AuthRegister from "./pages/auth/Register";
 import AdminOrders from "./pages/admin-view/Orders";
-import AdminProducts from "./pages/admin-view/Projucts";
+import AdminProducts from "./pages/admin-view/Products";
 import AdminLayout from "./components/admin-view/layout";
 import AdminFeatures from "./pages/admin-view/Features";
 import ShoppingLayout from "./components/shopping-view/Layout";
@@ -25,12 +25,7 @@ import AdminDashboard from "./pages/admin-view/Dashboard";
 import Unauthorized from "./pages/un-auth/Unauthorized";
 import { Toaster } from "@/components/ui/sonner";
 
-// const isAuthanticated = false;
-// const user = {
-//   role: "admi",
-// };
 
-// const {isAuthanticated,user}=useSelector(state => state.auth);
 const router = createBrowserRouter([
   {
     path: "/",

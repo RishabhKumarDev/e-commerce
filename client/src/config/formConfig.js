@@ -37,3 +37,64 @@ export const loginFormConfig = [
         type: "password"
     },
 ]
+
+export const addProductFormConfig = [
+    {
+        name: "title",
+        label: "Product Title",
+        placeholder: "Enter product title",
+        componentType: "input",
+        type: "text"
+    },
+    {
+        name: "description",
+        label: "Description",
+        placeholder: "Enter product description",
+        componentType: "textarea"
+    },
+    {
+        name: "category",
+        label: "Category",
+        componentType: "select",
+        options: [
+            { id: "men", label: "Men" },
+            { id: "women", label: "Women" },
+            { id: "kids", label: "Kids" },
+            { id: "footwear", label: "Footwear" },
+            { id: "accessories", label: "Accessories" },
+        ]
+    },
+    {
+        name: "brand",
+        label: "Brand",
+        componentType: "select",
+        options: [
+            { id: "nike", label: "Nike" },
+            { id: "puma", label: "Puma" },
+            { id: "adidas", label: "Adidas" },
+            { id: "reebok", label: "Reebok" },
+            { id: "new-balance", label: "New Balance" },
+        ]
+    },
+    {
+        name: "price",
+        label: "Price",
+        placeholder: "Enter price",
+        componentType: "input",
+        type: "number"
+    },
+    {
+        name: "salePrice",
+        label: "Sale Price",
+        placeholder: "Enter sale price",
+        componentType: "input",
+        type: "number"
+    },
+    {
+        name: "totalStock",
+        label: "Total Stock",
+        placeholder: "Enter total stock",
+        componentType: "input",
+        type: "number"
+    },
+];
