@@ -29,11 +29,11 @@ app.get("/", (req, res) => {
 //routes import
 import authRouter from './routes/auth/auth.routes.js';
 import { ApiResponse } from './utils/ApiResponse.js';
-
+import adminProductsRouter from './routes/admin/products.routes.js';
 
 //router deceleration
 app.use("/api/auth", authRouter);
-
+app.use("/api/admin/products", adminProductsRouter)
 
 // global Error Handler (middleware);
 

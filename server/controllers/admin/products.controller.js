@@ -1,0 +1,14 @@
+import { imageUploadUtil } from "../../helpers/cloudinary";
+import { ApiResponse } from '../../utils/ApiResponse.js';
+
+const handleProductImageUpload = async (req, res) => {
+
+    const b64 = Buffer.from(req.file.buffer).toString('base64');
+    const url = "data:" + req.file.mimetype + ";base64" + b64;
+    const result = await imageUploadUtil(url);
+
+    res.status(200)
+        .json(new ApiResponse(200, { result }, "Image Uploaded Successfully"))
+}
+
+export { handleProductImageUpload }
