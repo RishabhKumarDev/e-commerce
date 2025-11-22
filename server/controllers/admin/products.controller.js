@@ -1,4 +1,4 @@
-import { imageUploadUtil } from "../../helpers/cloudinary";
+import { imageUploadUtil } from "../../helpers/cloudinary.js";
 import { ApiResponse } from '../../utils/ApiResponse.js';
 
 const handleProductImageUpload = async (req, res) => {

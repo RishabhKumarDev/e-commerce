@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { upload } from '../../helpers/multer';
+import { upload } from '../../helpers/multer.js';
 import { asyncHandler } from '../../utils/asyncHandler.js';
 import { handleProductImageUpload } from '../../controllers/admin/products.controller.js';
 
