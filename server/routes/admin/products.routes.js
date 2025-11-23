@@ -6,7 +6,7 @@ import { handleProductImageUpload } from '../../controllers/admin/products.contr
 
 const router = express.Router({ mergeParams: true });
 
-router.route("/image-upload", upload.single("my_file"), asyncHandler(handleProductImageUpload));
+router.route("/image-upload").post(upload.single("my_file"), asyncHandler(handleProductImageUpload));
 
 
 

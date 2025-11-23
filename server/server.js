@@ -38,8 +38,8 @@ app.use("/api/admin/products", adminProductsRouter)
 // global Error Handler (middleware);
 
 app.use((err, req, res, next) => {
-
+console.log(err , " error ----------------------------------------------------")
     res.status(err.statusCode || 500)
-        .json(new ApiResponse(err.statusCode || 500, null, err.message))
+        .json(new ApiResponse(err.statusCode || 500, null, err.message || "Failed"))
 })
 export default app;
