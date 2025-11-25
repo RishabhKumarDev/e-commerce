@@ -1,4 +1,5 @@
 import ProductImageUpload from "@/components/admin-view/ImageUpload";
+import AdminProductTile from "@/components/admin-view/ProductTile";
 import CommonForm from "@/components/common/Form";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,8 +31,9 @@ function AdminProducts() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
+  const [currentEditedId, setCurrentEditedId] = useState(null);
   const { products } = useSelector((state) => state.adminProducts);
-  console.log(products)
+  console.log(products);
   const dispatch = useDispatch();
 
   const onSubmit = async (event) => {
@@ -65,10 +67,25 @@ function AdminProducts() {
           Add New Product
         </Button>
       </div>
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 "></div>
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 ">
+        {products && products.length > 0
+          ? products.map((product) => (
+              <AdminProductTile
+                setFormData={setFormData}
+                setOpenCreateProductDialog={setOpenCreateProductDialog}
+                setCurrentEditedId={setCurrentEditedId}
+                product={product}
+              />
+            ))
+          : null}
+      </div>
       <Sheet
         open={openCreateProductDialog}
-        onOpenChange={() => setOpenCreateProductDialog(false)}
+        onOpenChange={() => {
+          setOpenCreateProductDialog(false);
+          setCurrentEditedId(null);
+          setFormData(initialState);
+        }}
       >
         <SheetContent side="right" className="overflow-auto p-6">
           <SheetHeader>
@@ -81,6 +98,7 @@ function AdminProducts() {
             setUploadedImageUrl={setUploadedImageUrl}
             imageLoadingState={imageLoadingState}
             setImageLoadingState={setImageLoadingState}
+            isEditMode={currentEditedId !== null}
           />
           <div className="py-6">
             <CommonForm
