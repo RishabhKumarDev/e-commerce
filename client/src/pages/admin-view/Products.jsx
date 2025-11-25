@@ -9,7 +9,11 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormConfig } from "@/config/formConfig";
-import { addNewProduct, fetchAllProducts } from "@/features/admin/adminSlice";
+import {
+  addNewProduct,
+  editProduct,
+  fetchAllProducts,
+} from "@/features/admin/adminSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -38,21 +42,39 @@ function AdminProducts() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const addedProduct = await dispatch(
-        addNewProduct({ ...formData, image: uploadedImageUrl })
-      ).unwrap();
 
-      if (addedProduct?.success) {
+    if (currentEditedId === null) {
+      try {
+        const addedProduct = await dispatch(
+          addNewProduct({ ...formData, image: uploadedImageUrl })
+        ).unwrap();
+
+        if (addedProduct?.success) {
+          dispatch(fetchAllProducts());
+          setImageFile(null);
+          setUploadedImageUrl("");
+          setFormData(initialState);
+          setOpenCreateProductDialog(false);
+          toast.success(addedProduct.message);
+        }
+      } catch (error) {
+        toast.error(error?.data?.message || "Couldn't Add Product!!!");
+      }
+    } else {
+      try {
+        const updatedProduct = await dispatch(
+          editProduct({ id: currentEditedId, formData })
+        ).unwrap();
+
         dispatch(fetchAllProducts());
         setImageFile(null);
         setUploadedImageUrl("");
         setFormData(initialState);
         setOpenCreateProductDialog(false);
-        toast.success(addedProduct.message);
+        toast.success(updatedProduct.message);
+      } catch (error) {
+        toast.error(error?.data?.message || "Couldn't Update Product...");
       }
-    } catch (error) {
-      toast.error(error?.data?.message || "Couldn't Add Product!!!");
     }
   };
 
@@ -60,6 +82,12 @@ function AdminProducts() {
     dispatch(fetchAllProducts());
   }, [dispatch]);
   // console.log(formData, "formData");
+
+  const isFormValid = () => {
+    return Object.keys(formData).every(
+      (key) => formData[key] && formData[key].trim() !== ""
+    );
+  };
   return (
     <>
       <div className="flex justify-end w-full mb-5">
@@ -89,7 +117,9 @@ function AdminProducts() {
       >
         <SheetContent side="right" className="overflow-auto p-6">
           <SheetHeader>
-            <SheetTitle className="text-2xl">Add New Product</SheetTitle>
+            <SheetTitle className="text-2xl">
+              {currentEditedId !== null ? "Edit Product" : "Add New Product"}
+            </SheetTitle>
           </SheetHeader>
           <ProductImageUpload
             imageFile={imageFile}
@@ -103,11 +133,13 @@ function AdminProducts() {
           <div className="py-6">
             <CommonForm
               formControls={addProductFormConfig}
-              buttonText="Add Product"
+              buttonText={
+                currentEditedId !== null ? "Update Product" : "Add Product"
+              }
               formData={formData}
               setFormData={setFormData}
               onSubmit={onSubmit}
-              disableBtn={imageLoadingState}
+              disableBtn={!isFormValid()}
             />
           </div>
         </SheetContent>

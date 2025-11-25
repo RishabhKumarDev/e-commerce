@@ -16,8 +16,9 @@ function CommonForm({
   formData,
   setFormData,
   onSubmit,
-  disableBtn = false,
+  disableBtn ,
 }) {
+  console.log( disableBtn, "disableBtn")
   const renderInputsByComponentType = (getControlItem) => {
     let element = null;
     const value = formData[getControlItem.name] || "";
@@ -109,7 +110,7 @@ function CommonForm({
         type="submit"
         className="mt-2 w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
       >
-       {disableBtn ? "Wait..." : buttonText || "Submit" }
+       {disableBtn ? "Seems like you got empty field" : buttonText || "Submit" }
       </Button>
     </form>
   );
