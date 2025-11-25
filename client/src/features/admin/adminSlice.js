@@ -10,26 +10,23 @@ const initialState = {
 
 // Async Thunks...
 // Add Product...
-const addNewProduct = createAsyncThunk("adminProducts/addNewProduct", async (formData, { rejectWithValue }) => {
+export const addNewProduct = createAsyncThunk("adminProducts/addNewProduct", async (formData, { rejectWithValue }) => {
     try {
         const result = await axios.post("http://localhost:5000/api/admin/products/add", formData, {
             headers: {
                 "Content-Type": "application/json"
             }
         });
-        console.log(result);
         return result?.data
     } catch (error) {
-        console.log(error);
         return rejectWithValue(error.response);
     }
 });
 
 // Fetch Products...
-const fetchAllProducts = createAsyncThunk("adminProducts/fetchAllProducts", async (_, { rejectWithValue }) => {
+export const fetchAllProducts = createAsyncThunk("adminProducts/fetchAllProducts", async (_, { rejectWithValue }) => {
     try {
         const result = await axios.get("http://localhost:5000/api/admin/products/get");
-        console.log(result);
         return result?.data
     } catch (error) {
         return rejectWithValue(error.response);
@@ -37,7 +34,7 @@ const fetchAllProducts = createAsyncThunk("adminProducts/fetchAllProducts", asyn
 });
 
 // Edit Product...
-const editProduct = createAsyncThunk("adminProducts/editProduct", async ({ id, formData }, { rejectWithValue }) => {
+export const editProduct = createAsyncThunk("adminProducts/editProduct", async ({ id, formData }, { rejectWithValue }) => {
     try {
         const result = await axios.patch(`http://localhost:5000/api/admin/products/edit/${id}`, formData, {
             headers: {
@@ -53,7 +50,7 @@ const editProduct = createAsyncThunk("adminProducts/editProduct", async ({ id, f
 
 
 // Delete Product...
-const deleteProduct = createAsyncThunk("adminProducts/deleteProduct", async (id, { rejectWithValue }) => {
+export const deleteProduct = createAsyncThunk("adminProducts/deleteProduct", async (id, { rejectWithValue }) => {
     try {
         const result = await axios.delete(`http://localhost:5000/api/admin/products/delete/${id}`);
         console.log(result);
@@ -75,11 +72,10 @@ const adminSlice = createSlice({
             })
             .addCase(fetchAllProducts.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.products = action.payload;
+                state.products = action.payload.data;
             })
             .addCase(fetchAllProducts.rejected, (state, action) => {
                 state.isLoading = false;
-                console.log(action.payload)
                 state.products = [];
             })
     }

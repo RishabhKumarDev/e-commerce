@@ -8,7 +8,10 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormConfig } from "@/config/formConfig";
-import { useState } from "react";
+import { addNewProduct, fetchAllProducts } from "@/features/admin/adminSlice";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const initialState = {
   image: null,
@@ -27,9 +30,34 @@ function AdminProducts() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
+  const { products } = useSelector((state) => state.adminProducts);
+  console.log(products)
+  const dispatch = useDispatch();
 
-  const onSubmit = (formData) => {};
-  console.log(formData, "formData")
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const addedProduct = await dispatch(
+        addNewProduct({ ...formData, image: uploadedImageUrl })
+      ).unwrap();
+
+      if (addedProduct?.success) {
+        dispatch(fetchAllProducts());
+        setImageFile(null);
+        setUploadedImageUrl("");
+        setFormData(initialState);
+        setOpenCreateProductDialog(false);
+        toast.success(addedProduct.message);
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Couldn't Add Product!!!");
+    }
+  };
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+  // console.log(formData, "formData");
   return (
     <>
       <div className="flex justify-end w-full mb-5">
@@ -61,6 +89,7 @@ function AdminProducts() {
               formData={formData}
               setFormData={setFormData}
               onSubmit={onSubmit}
+              disableBtn={imageLoadingState}
             />
           </div>
         </SheetContent>
