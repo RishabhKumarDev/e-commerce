@@ -41,7 +41,6 @@ export const editProduct = createAsyncThunk("adminProducts/editProduct", async (
                 "Content-Type": "application/json"
             }
         });
-        console.log(result);
         return result?.data
     } catch (error) {
         return rejectWithValue(error.response);
@@ -53,7 +52,6 @@ export const editProduct = createAsyncThunk("adminProducts/editProduct", async (
 export const deleteProduct = createAsyncThunk("adminProducts/deleteProduct", async (id, { rejectWithValue }) => {
     try {
         const result = await axios.delete(`http://localhost:5000/api/admin/products/delete/${id}`);
-        console.log(result);
         return result?.data
     } catch (error) {
         return rejectWithValue(error.response);

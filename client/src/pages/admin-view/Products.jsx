@@ -11,6 +11,7 @@ import {
 import { addProductFormConfig } from "@/config/formConfig";
 import {
   addNewProduct,
+  deleteProduct,
   editProduct,
   fetchAllProducts,
 } from "@/features/admin/adminSlice";
@@ -37,7 +38,6 @@ function AdminProducts() {
   const [imageLoadingState, setImageLoadingState] = useState(false);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const { products } = useSelector((state) => state.adminProducts);
-  console.log(products);
   const dispatch = useDispatch();
 
   const onSubmit = async (event) => {
@@ -81,12 +81,27 @@ function AdminProducts() {
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
-  // console.log(formData, "formData");
 
-  const isFormValid = () => {
-    return Object.keys(formData).every(
-      (key) => formData[key] && formData[key].trim() !== ""
-    );
+ const isFormValid = () => {
+  return Object.entries(formData)
+    .filter(([key]) => key !== "image") // ignore image completely
+    .every(([_, value]) => typeof value === "string" && value.trim() !== "");
+};
+
+
+  const handleDelete = async (getCurrentProductId) => {
+    try {
+      const deletedProduct = await dispatch(
+        deleteProduct(getCurrentProductId)
+      ).unwrap();
+
+      dispatch(fetchAllProducts());
+      toast.success(
+        deletedProduct?.message || "Successfully delete Product..."
+      );
+    } catch (error) {
+      toast.error(error?.data?.message || "Couldn't delete Product...");
+    }
   };
   return (
     <>
@@ -103,6 +118,7 @@ function AdminProducts() {
                 setOpenCreateProductDialog={setOpenCreateProductDialog}
                 setCurrentEditedId={setCurrentEditedId}
                 product={product}
+                handleDelete={handleDelete}
               />
             ))
           : null}

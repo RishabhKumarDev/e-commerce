@@ -6,6 +6,7 @@ function AdminProductTile({
   setFormData,
   setOpenCreateProductDialog,
   setCurrentEditedId,
+  handleDelete,
 }) {
   return (
     <Card className="w-full max-w-sm mx-auto">
@@ -32,14 +33,18 @@ function AdminProductTile({
             ) : null}
           </div>
         </CardContent>
-        <CardFooter>
-          <div className="flex items-center justify-between mb-2">
-            <Button onClick={() => {
+        <CardFooter >
+          <div className="flex w-full items-center justify-between mb-2">
+            <Button
+              onClick={() => {
                 setFormData(product);
                 setOpenCreateProductDialog(true);
-                setCurrentEditedId(product?._id)
-            }}>Edit</Button>
-            <Button>Delete</Button>
+                setCurrentEditedId(product?._id);
+              }}
+            >
+              Edit
+            </Button>
+            <Button onClick={() => handleDelete(product?._id)}>Delete</Button>
           </div>
         </CardFooter>
       </div>

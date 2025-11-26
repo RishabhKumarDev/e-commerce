@@ -18,7 +18,6 @@ function CommonForm({
   onSubmit,
   disableBtn ,
 }) {
-  console.log( disableBtn, "disableBtn")
   const renderInputsByComponentType = (getControlItem) => {
     let element = null;
     const value = formData[getControlItem.name] || "";
