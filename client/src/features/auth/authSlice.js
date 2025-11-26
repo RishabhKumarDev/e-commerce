@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const initialState = {
     isAuthanticated: false,
@@ -46,6 +47,19 @@ export const checkAuth = createAsyncThunk("/auth/check-auth", async (_, thunkAPI
     }
 })
 
+// logout user
+
+export const logoutUser = createAsyncThunk("/auth/logoutUser", async (_, { rejectWithValue }) => {
+    try {
+        const response = await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true })
+        toast.success(response.data.message)
+        return response.data;
+    } catch (error) {
+        console.log(error)
+        return rejectWithValue(error.response);
+    }
+})
+
 const authSlice = createSlice({
     name: "auth",
     initialState: initialState,
@@ -88,13 +102,16 @@ const authSlice = createSlice({
                 state.user = action.payload.data;
                 state.isAuthanticated = true;
             })
-            .addCase(checkAuth.rejected, (state,action)=>{
+            .addCase(checkAuth.rejected, (state, action) => {
                 state.isLoading = false;
                 state.user = null;
                 state.isAuthanticated = false;
             })
-
-
+            .addCase(logoutUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.user = null;
+                state.isAuthanticated = false;
+            })
     }
 });
 
