@@ -30,15 +30,16 @@ app.get("/", (req, res) => {
 import authRouter from './routes/auth/auth.routes.js';
 import { ApiResponse } from './utils/ApiResponse.js';
 import adminProductsRouter from './routes/admin/products.routes.js';
+import shoppingProductRouter from './routes/shopping/products.routes.js';
 
 //router deceleration
 app.use("/api/auth", authRouter);
-app.use("/api/admin/products", adminProductsRouter)
-
+app.use("/api/admin/products", adminProductsRouter);
+app.use("/api/shopping/products", shoppingProductRouter);
 // global Error Handler (middleware);
 
 app.use((err, req, res, next) => {
-console.log(err , " error ----------------------------------------------------")
+    console.log(err, " error ----------------------------------------------------")
     res.status(err.statusCode || 500)
         .json(new ApiResponse(err.statusCode || 500, null, err.message || "Failed"))
 })
