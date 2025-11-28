@@ -1,5 +1,10 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+
+// utils/format.js
+ const formatLabel = (str) =>
+  str.replace(/\b\w/g, l => l.toUpperCase());
 
 function ShoppingProductTile({ product }) {
   return (
@@ -21,10 +26,10 @@ function ShoppingProductTile({ product }) {
           <h2 className="mb-2 text-xl font-bold">{product?.title}</h2>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-muted-foreground">
-              {product?.category}
+              {formatLabel(product?.category)}
             </span>
             <span className="text-sm text-muted-foreground">
-              {product?.brand}
+              {formatLabel(product?.brand)}
             </span>
           </div>
           <div className="flex items-center justify-between mb-2">
@@ -33,11 +38,11 @@ function ShoppingProductTile({ product }) {
                 product?.salePrice > 0 ? "line-through " : ""
               }text-lg font-semibold text-primary`}
             >
-              {product?.price}
+              ${product?.price}
             </span>
             {product?.salePrice > 0 ? (
               <span className="text-lg font-semibold text-primary">
-                {product?.salePrice}
+                ${product?.salePrice}
               </span>
             ) : null}
           </div>
