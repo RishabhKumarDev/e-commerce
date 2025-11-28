@@ -85,7 +85,7 @@ function AdminProducts() {
  const isFormValid = () => {
   return Object.entries(formData)
     .filter(([key]) => key !== "image") // ignore image completely
-    .every(([_, value]) => typeof value === "string" && value.trim() !== "");
+    .every(([_, value]) => typeof value === "string" || typeof value === "number" && value !== "");
 };
 
 
