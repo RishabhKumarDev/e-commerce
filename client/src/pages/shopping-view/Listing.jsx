@@ -14,10 +14,25 @@ import { fetchAllFilteredProducts } from "@/features/shopping/shoppingSlice";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
+const createSearchParamsHelper = (filtersParams) => {
+  const queryParams = [];
+
+  for (const [key, value] of Object.entries(filtersParams)) {
+    if (Array.isArray(value) && value.length > 0) {
+      const paramValue = value.join(",");
+
+      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+    }
+  }
+
+  return queryParams.join("&");
+};
 function ShoppingListing() {
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const { isLoading, productList } = useSelector(
     (state) => state.shoppingProducts
@@ -41,18 +56,25 @@ function ShoppingListing() {
     setFilters(newFilter);
     sessionStorage.setItem("filters", JSON.stringify(newFilter));
   };
-  console.log(filters, "filters-------2");
+  console.log(filters, searchParams, "filters-------");
+
+  useEffect(() => {
+    if (filters && Object.keys(filters).length > 0) {
+      const createSearchParms = createSearchParamsHelper(filters);
+      setSearchParams(new URLSearchParams(createSearchParms));
+    }
+  }, [filters]);
 
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
   }, []);
-  
+
   useEffect(() => {
     dispatch(fetchAllFilteredProducts());
   }, [dispatch]);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
       <div className="w-full rounded-lg shadow-sm bg-background">
         <div className="flex items-center justify-between p-4 border-b">
