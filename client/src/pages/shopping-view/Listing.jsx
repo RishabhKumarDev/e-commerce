@@ -12,22 +12,48 @@ import {
 import { sortOptions } from "@/config/formConfig";
 import { fetchAllFilteredProducts } from "@/features/shopping/shoppingSlice";
 import { ArrowUpDownIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function ShoppingListing() {
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState(null);
   const dispatch = useDispatch();
   const { isLoading, productList } = useSelector(
     (state) => state.shoppingProducts
   );
 
-  console.log(isLoading, productList, " product--list==[]");
+  const handleSort = (value) => {
+    console.log(value);
+  };
+
+  const handleFilter = (getSectionId, getCurrentOption) => {
+    const newFilter = { ...filters };
+
+    let options = newFilter[getSectionId] || [];
+
+    if (options.includes(getCurrentOption)) {
+      newFilter[getSectionId] = options.filter((o) => o !== getCurrentOption);
+    } else {
+      newFilter[getSectionId] = [...options, getCurrentOption];
+    }
+
+    setFilters(newFilter);
+    sessionStorage.setItem("filters", JSON.stringify(newFilter));
+  };
+  console.log(filters, "filters-------2");
+
+  useEffect(() => {
+    setSort("price-lowtohigh");
+    setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+  }, []);
+  
   useEffect(() => {
     dispatch(fetchAllFilteredProducts());
   }, [dispatch]);
   return (
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4">
-      <ProductFilter />
+      <ProductFilter filters={filters} handleFilter={handleFilter} />
       <div className="w-full rounded-lg shadow-sm bg-background">
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-extrabold"> All Products </h2>
@@ -43,9 +69,9 @@ function ShoppingListing() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-[200px]">
-                <DropdownMenuRadioGroup>
+                <DropdownMenuRadioGroup value={sort} onValueChange={handleSort}>
                   {sortOptions.map((option) => (
-                    <DropdownMenuRadioItem key={option.id}>
+                    <DropdownMenuRadioItem key={option.id} value={option.id}>
                       {option.label}
                     </DropdownMenuRadioItem>
                   ))}
@@ -59,7 +85,7 @@ function ShoppingListing() {
             <Loader />
           ) : productList && productList.length > 0 ? (
             productList.map((product) => (
-              <ShoppingProductTile product={product} /> 
+              <ShoppingProductTile key={product._id} product={product} />
             ))
           ) : (
             <h1 className="text-2xl font-semibold bg-linear-180 underline-offset-2">

@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { filterOptions } from "@/config/formConfig";
 import { Fragment } from "react";
 
-function ProductFilter() {
+function ProductFilter({ filters, handleFilter }) {
   return (
     <div className="rounded-lg shadow-sm bg-background">
       <div className="p-4 border-b">
@@ -12,19 +12,31 @@ function ProductFilter() {
       </div>
       <div className="p-4 space-y-4">
         {Object.keys(filterOptions).map((keyItem) => (
-          <Fragment>
+          <Fragment key={keyItem}>
             <div>
               <h3 className="text-base font-bold">{keyItem}</h3>
               <div className="grid gap-2 mt-2">
                 {filterOptions[keyItem].map((option) => (
-                  <Label className="flex items-center gap-2 font-medium">
-                    <Checkbox />
+                  <Label
+                    key={option.id}
+                    className="flex items-center gap-2 font-medium"
+                  >
+                    <Checkbox
+                      checked={
+                        filters &&
+                        Object.keys(filters).length > 0 &&
+                        filters[keyItem] &&
+                        filters[keyItem].includes(option.id)
+                      }
+                      onCheckedChange={() => handleFilter(keyItem, option.id)}
+                      value
+                    />
                     {option.label}
                   </Label>
                 ))}
               </div>
             </div>
-            <Separator /> 
+            <Separator />
           </Fragment>
         ))}
       </div>
