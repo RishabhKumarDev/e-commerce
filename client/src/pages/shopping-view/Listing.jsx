@@ -10,11 +10,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config/formConfig";
-import { fetchAllFilteredProducts } from "@/features/shopping/shoppingSlice";
+import {
+  fetchAllFilteredProducts,
+  fetchProductDetails,
+} from "@/features/shopping/shoppingSlice";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const createSearchParamsHelper = (filtersParams) => {
   const queryParams = [];
@@ -34,7 +38,7 @@ function ShoppingListing() {
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
-  const { isLoading, productList } = useSelector(
+  const { isLoading, productList, productDetails } = useSelector(
     (state) => state.shoppingProducts
   );
 
@@ -55,6 +59,14 @@ function ShoppingListing() {
 
     setFilters(newFilter);
     sessionStorage.setItem("filters", JSON.stringify(newFilter));
+  };
+
+  const getProductDetails = async (getProductId) => {
+    try {
+      let result = await dispatch(fetchProductDetails(getProductId)).unwrap();
+    } catch (error) {
+      toast.error(error?.data?.message || "Coldn't Fetch Product Details");
+    }
   };
 
   useEffect(() => {
@@ -110,7 +122,11 @@ function ShoppingListing() {
             <Loader />
           ) : productList && productList.length > 0 ? (
             productList.map((product) => (
-              <ShoppingProductTile key={product._id} product={product} />
+              <ShoppingProductTile
+                getProductDetails={getProductDetails}
+                key={product._id}
+                product={product}
+              />
             ))
           ) : (
             <h1 className="text-2xl font-semibold bg-linear-180 underline-offset-2">
