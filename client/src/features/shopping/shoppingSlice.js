@@ -7,9 +7,14 @@ const initialState = {
     productList: [],
 };
 
-export const fetchAllFilteredProducts = createAsyncThunk("shoppingProducts/fetchAllFilteredProducts", async (_, { rejectWithValue }) => {
+export const fetchAllFilteredProducts = createAsyncThunk("shoppingProducts/fetchAllFilteredProducts", async ({ filterParams, sortParams }, { rejectWithValue }) => {
     try {
-        const result = await axios.get("http://localhost:5000/api/shopping/products/get");
+
+        const result = await axios.get(`http://localhost:5000/api/shopping/products/get`, {
+            params: {
+                ...filterParams, sortParams
+            }
+        });
         return result?.data
     } catch (error) {
         return rejectWithValue(error.response);

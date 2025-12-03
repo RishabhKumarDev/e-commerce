@@ -39,7 +39,7 @@ function ShoppingListing() {
   );
 
   const handleSort = (value) => {
-    console.log(value);
+    setSort(value);
   };
 
   const handleFilter = (getSectionId, getCurrentOption) => {
@@ -56,7 +56,6 @@ function ShoppingListing() {
     setFilters(newFilter);
     sessionStorage.setItem("filters", JSON.stringify(newFilter));
   };
-  console.log(filters, searchParams, "filters-------");
 
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
@@ -71,8 +70,12 @@ function ShoppingListing() {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchAllFilteredProducts());
-  }, [dispatch]);
+    if (filters !== null && sort !== null) {
+      dispatch(
+        fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
+      );
+    }
+  }, [dispatch, filters, sort]);
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
