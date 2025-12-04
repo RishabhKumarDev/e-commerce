@@ -1,5 +1,6 @@
 import { Loader } from "@/components/common/Loader";
 import ProductFilter from "@/components/shopping-view/Filter";
+import ProductDetailsDialog from "@/components/shopping-view/ProductDetails";
 import ShoppingProductTile from "@/components/shopping-view/ProductTile";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,6 +38,7 @@ function ShoppingListing() {
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [openProductDialog, setOpentProductDialog] = useState(false);
   const dispatch = useDispatch();
   const { isLoading, productList, productDetails } = useSelector(
     (state) => state.shoppingProducts
@@ -88,6 +90,12 @@ function ShoppingListing() {
       );
     }
   }, [dispatch, filters, sort]);
+
+  useEffect(() => {
+    if (productDetails !== null) {
+      setOpentProductDialog(true);
+    }
+  }, [productDetails]);
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
@@ -135,6 +143,11 @@ function ShoppingListing() {
           )}
         </div>
       </div>
+      <ProductDetailsDialog
+        open={openProductDialog}
+        setOpen={setOpentProductDialog}
+        productDetails={productDetails}
+      />
     </div>
   );
 }
