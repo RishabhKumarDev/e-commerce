@@ -13,8 +13,12 @@ export const fetchAllFilteredProducts = createAsyncThunk("shoppingProducts/fetch
 
         const result = await axios.get(`http://localhost:5000/api/shopping/products/get`, {
             params: {
-                ...filterParams, sortParams
-            }
+                category: filterParams.category?.join(",") || "",
+                brand: filterParams.brand?.join(",") || "",
+                sortBy: sortParams
+            },
+           
+
         });
         return result?.data
     } catch (error) {
