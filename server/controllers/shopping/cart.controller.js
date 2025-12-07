@@ -16,7 +16,7 @@ const addToCart = async (req, res) => {
         throw new ApiError(404, "Product doesn't exist")
     }
 
-    let cart = await Cart.findById(userId);
+    let cart = await Cart.findOne({ userId });
 
     if (!cart) {
         cart = new Cart({ userId, items: [] })
@@ -31,7 +31,6 @@ const addToCart = async (req, res) => {
     }
 
     await cart.save();
-
     res
         .status(200)
         .json(new ApiResponse(200, cart, "Successfully added Product in Cart"))
@@ -46,7 +45,7 @@ const deleteCartItem = async (req, res) => {
         throw new ApiError(400, "Missing required fields")
     }
 
-    let cart = await Cart.findById(userId);
+    let cart = await Cart.findOne({ userId });
 
     if (!cart) {
         throw new ApiError(404, "Cart doesn't exists");
@@ -69,7 +68,7 @@ const fetchCartItems = async (req, res) => {
         throw new ApiError(400, "Id is missing")
     }
 
-    const cart = await Cart.findById(userId).populate({
+    const cart = await Cart.findOne({ userId }).populate({
         path: "items.productId",
         select: "title price image salePrice"
     })
@@ -110,7 +109,7 @@ const updateCartItemQty = async (req, res) => {
         throw new ApiError(400, "Missing required fields")
     }
 
-    let cart = await Cart.findById(userId);
+    let cart = await Cart.findOne({ userId });
 
     if (!cart) {
         throw new ApiError(404, "Cart doesn't exist")

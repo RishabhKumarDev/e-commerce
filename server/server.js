@@ -37,7 +37,7 @@ import shoppingCartRouter from './routes/shopping/cart.routes.js';
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shopping/products", shoppingProductRouter);
-app.use("api/shopping/cart", shoppingCartRouter)
+app.use("/api/shopping/cart", shoppingCartRouter)
 // global Error Handler (middleware);
 
 app.use((err, req, res, next) => {
