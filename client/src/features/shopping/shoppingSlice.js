@@ -17,7 +17,7 @@ export const fetchAllFilteredProducts = createAsyncThunk("shoppingProducts/fetch
                 brand: filterParams.brand?.join(",") || "",
                 sortBy: sortParams
             },
-           
+
 
         });
         return result?.data
@@ -38,7 +38,11 @@ export const fetchProductDetails = createAsyncThunk("shoppingProducts/fetchProdu
 const shoppingSlice = createSlice({
     name: "shoppingProducts",
     initialState,
-    reducers: () => { },
+    reducers: {
+        setProductDetails: (state) => {
+            state.productDetails = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchAllFilteredProducts.pending, (state) => {
@@ -68,5 +72,5 @@ const shoppingSlice = createSlice({
 });
 
 
-
+export const { setProductDetails } = shoppingSlice.actions;
 export default shoppingSlice.reducer;
