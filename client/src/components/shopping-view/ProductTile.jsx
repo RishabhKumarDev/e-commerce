@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 // utils/format.js
 const formatLabel = (str) => str.replace(/\b\w/g, (l) => l.toUpperCase());
 
-function ShoppingProductTile({ product, getProductDetails }) {
+function ShoppingProductTile({ product, getProductDetails, handleAddToCart }) {
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={() => getProductDetails(product._id)}>
@@ -31,7 +31,7 @@ function ShoppingProductTile({ product, getProductDetails }) {
               {formatLabel(product?.brand)}
             </span>
           </div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between ">
             <span
               className={`${
                 product?.salePrice > 0 ? "line-through " : ""
@@ -46,10 +46,15 @@ function ShoppingProductTile({ product, getProductDetails }) {
             ) : null}
           </div>
         </CardContent>
-        <CardFooter>
-          <Button className="w-full">Add to Cart</Button>
-        </CardFooter>
       </div>
+      <CardFooter>
+        <Button
+          className="w-full"
+          onClick={() => handleAddToCart(product?._id)}
+        >
+          Add to Cart
+        </Button>
+      </CardFooter>
     </Card>
   );
 }

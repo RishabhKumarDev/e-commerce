@@ -73,7 +73,6 @@ const cartSlice = createSlice({
             })
             .addCase(updateCartItemQty.fulfilled, (state, action) => {
                 state.isLoading = false;
-                console.log(action.payload);
                 state.cartItems = action.payload?.data?.structuredItems;
             })
             .addCase(updateCartItemQty.rejected, (state, action) => {

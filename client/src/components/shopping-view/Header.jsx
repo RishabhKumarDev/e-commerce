@@ -1,3 +1,4 @@
+import UserCartWrapper from "@/components/shopping-view/UserCartWrapper";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +12,9 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { shoppingViewHeaderMenuItems } from "@/config/formConfig";
 import { logoutUser } from "@/features/auth/authSlice";
+import { fetchCartItems } from "@/features/shopping/cartSlice";
 import { CircleUser, Home, LogOut, Menu, ShoppingCart } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
@@ -34,19 +37,32 @@ function MenuItems() {
 }
 
 function HeaderRightContent() {
+  const [openCartSheet, setOpenCartSheet] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shoppingCart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logoutUser());
-  };
+  }; 
 
+  useEffect(() => {
+    dispatch(fetchCartItems(user?._id));
+  }, [dispatch]);
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-      <Button variant="outline" size="icon">
-        <ShoppingCart className="w-6 h-6" />
-        <span className="sr-only">User Shopping Cart</span>
-      </Button>
+      <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+        <Button
+          onClick={() => setOpenCartSheet(true)}
+          variant="outline"
+          size="icon"
+        >
+          <ShoppingCart className="w-6 h-6" />
+          <span className="sr-only">User Shopping Cart</span>
+        </Button>
+        <UserCartWrapper cartItems={cartItems} />
+      </Sheet>
+
       <DropdownMenu asChild>
         <DropdownMenuTrigger className=" w-fit">
           <Avatar className="bg-black border-none">
@@ -80,7 +96,6 @@ function HeaderRightContent() {
     </div>
   );
 }
-
 
 function ShoppingHeader() {
   return (

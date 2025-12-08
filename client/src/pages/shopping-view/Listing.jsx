@@ -11,11 +11,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config/formConfig";
+import { addToCart, fetchCartItems } from "@/features/shopping/cartSlice";
 import {
   fetchAllFilteredProducts,
   fetchProductDetails,
 } from "@/features/shopping/shoppingSlice";
-import { ArrowUpDownIcon } from "lucide-react";
+import { ArrowUpDownIcon, Rat } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -43,7 +44,7 @@ function ShoppingListing() {
   const { isLoading, productList, productDetails } = useSelector(
     (state) => state.shoppingProducts
   );
-
+  const { user } = useSelector((state) => state.auth);
   const handleSort = (value) => {
     setSort(value);
   };
@@ -68,6 +69,20 @@ function ShoppingListing() {
       let result = await dispatch(fetchProductDetails(getProductId)).unwrap();
     } catch (error) {
       toast.error(error?.data?.message || "Coldn't Fetch Product Details");
+    }
+  };
+
+  const handleAddToCart = async (getProductId) => {
+    console.log(getProductId);
+    try {
+      const response = await dispatch(
+        addToCart({ userId: user?._id, productId: getProductId, quantity: 1 })
+      ).unwrap();
+
+      dispatch(fetchCartItems(user?._id));
+      toast("Product Added to Cart");
+    } catch (error) {
+      console.log(error, " handleAddToCart");
     }
   };
 
@@ -126,19 +141,19 @@ function ShoppingListing() {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {isLoading ? (
-            <Loader />
-          ) : productList && productList.length > 0 ? (
+          { productList && productList.length > 0 ? (
             productList.map((product) => (
               <ShoppingProductTile
                 getProductDetails={getProductDetails}
                 key={product._id}
                 product={product}
+                handleAddToCart={handleAddToCart}
               />
             ))
           ) : (
             <h1 className="text-2xl font-semibold bg-linear-180 underline-offset-2">
-              Wait Admin is Lazy... has not uploaded any Product yet...
+              <Rat className="h-14 w-14" /> Sorry Admin is Lazy... has not
+              uploaded any Product yet...
             </h1>
           )}
         </div>
@@ -147,6 +162,7 @@ function ShoppingListing() {
         open={openProductDialog}
         setOpen={setOpentProductDialog}
         productDetails={productDetails}
+        handleAddToCart={handleAddToCart}
       />
     </div>
   );
