@@ -13,7 +13,7 @@ function ShoppingProductTile({ product, getProductDetails, handleAddToCart }) {
           <img
             src={product?.image}
             alt={product?.title}
-            className="object-cover w-full rounded-t-lg h-72"
+            className="object-cover w-full rounded-t-lg h-72 -mt-6"
           />
           {product.salePrice > 0 ? (
             <Badge className="absolute bg-red-500 left-2 top-2 hover:bg-red-600">
