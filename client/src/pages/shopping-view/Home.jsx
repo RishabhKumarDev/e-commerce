@@ -4,12 +4,18 @@ import banner2 from "../../assets/banner2.jpg";
 import banner3 from "../../assets/banner3.jpg";
 import {
   BabyIcon,
+  ChartNoAxesColumnIncreasing,
+  Check,
   CircleChevronLeft,
   CircleChevronRight,
   Drama,
   Footprints,
   ShirtIcon,
+  ShoppingBag,
+  ShoppingBasket,
+  Tag,
   WatchIcon,
+  Zap,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -25,6 +31,14 @@ const categoriesWithIcons = [
   { id: "footwear", label: "Footwear", icon: Footprints },
 ];
 
+const brandsWithIcons = [
+  { id: "nike", label: "Nike", icon: Check },
+  { id: "adidas", label: "Adidas", icon: ChartNoAxesColumnIncreasing },
+  { id: "puma", label: "Puma", icon: Zap },
+  { id: "levi", label: "Levi", icon: Tag },
+  { id: "zara", label: "Zara", icon: ShoppingBag },
+  { id: "h&m", label: "H&M", icon: ShoppingBasket },
+];
 const slides = [banner1, banner2, banner3];
 
 function ShoppingHome() {
@@ -39,7 +53,6 @@ function ShoppingHome() {
 
     return () => clearInterval(timer);
   }, []);
-
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -94,7 +107,7 @@ function ShoppingHome() {
           <CircleChevronRight className="w-4 h-4" />
         </Button>
       </div>
-      <section className="py-12 bg-white/50">
+      <section className="p-12 bg-white/50">
         <div className="container px-4 mx-auto">
           <h2 className="mb-8 text-3xl font-bold text-center">
             Shop By Category
@@ -114,11 +127,32 @@ function ShoppingHome() {
           </div>
         </div>
       </section>
-      <section className="p-12  ">
+
+      <section className="p-12 bg-white/50">
+        <div className="container px-4 mx-auto">
+          <h2 className="mb-8 text-3xl font-bold text-center">
+            Shop By Brand
+          </h2>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+            {brandsWithIcons.map((brand) => (
+              <Card
+                key={brand.id}
+                className="transition-shadow cursor-pointer hover:shadow-lg"
+              >
+                <CardContent className="flex flex-col items-center justify-center p-6">
+                  <brand.icon className="w-12 h-12 mb-4 text-primary" />
+                  <span className="font-bold">{brand.label}</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="p-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
           {productList && productList.length > 0
             ? productList.map((product) => (
-                <ShoppingProductTile  product={product} />
+                <ShoppingProductTile product={product} />
               ))
             : null}
         </div>
