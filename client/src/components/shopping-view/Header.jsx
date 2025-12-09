@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { shoppingViewHeaderMenuItems } from "@/config/formConfig";
 import { logoutUser } from "@/features/auth/authSlice";
@@ -19,18 +20,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function MenuItems() {
+  const navigate = useNavigate();
+
+  function handleNavigate(item) {
+    sessionStorage.removeItem("filters");
+    let filter = item.id !== "home" ? { category: [item.id] } : null;
+    sessionStorage.setItem("filters", JSON.stringify(filter));
+    navigate(item.path);
+  }
+
   return (
     <nav className="flex flex-col gap-6 mb-3 lg:flex-row lg:mb-0 lg:items-center">
       {shoppingViewHeaderMenuItems.map((item) => (
-        <NavLink
+        <Label
           key={item.id}
-          to={item.path}
-          className={({ isActive }) =>
-            (isActive ? "" : "") + " text-sm font-medium hover:underline"
-          }
+          className={"text-sm font-medium hover:underline cursor-pointer"}
+          onClick={() => handleNavigate(item)}
         >
           {item.label}
-        </NavLink>
+        </Label>
       ))}
     </nav>
   );
@@ -44,7 +52,7 @@ function HeaderRightContent() {
   const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logoutUser());
-  }; 
+  };
 
   useEffect(() => {
     dispatch(fetchCartItems(user?._id));

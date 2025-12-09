@@ -68,7 +68,7 @@ function ShoppingListing() {
     try {
       let result = await dispatch(fetchProductDetails(getProductId)).unwrap();
     } catch (error) {
-      toast.error(error?.data?.message || "Coldn't Fetch Product Details");
+      toast.error(error?.data?.message || "Couldn't Fetch Product Details");
     }
   };
 
