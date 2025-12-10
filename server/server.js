@@ -32,12 +32,14 @@ import { ApiResponse } from './utils/ApiResponse.js';
 import adminProductsRouter from './routes/admin/products.routes.js';
 import shoppingProductRouter from './routes/shopping/products.routes.js';
 import shoppingCartRouter from './routes/shopping/cart.routes.js';
+import shoppingAddressRouter from './routes/shopping/address.routes.js';
 
 //router deceleration
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shopping/products", shoppingProductRouter);
 app.use("/api/shopping/cart", shoppingCartRouter)
+app.use("/api/shooping/address", shoppingAddressRouter);
 // global Error Handler (middleware);
 
 app.use((err, req, res, next) => {
