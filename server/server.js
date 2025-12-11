@@ -39,7 +39,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shopping/products", shoppingProductRouter);
 app.use("/api/shopping/cart", shoppingCartRouter)
-app.use("/api/shooping/address", shoppingAddressRouter);
+app.use("/api/shopping/address", shoppingAddressRouter);
 // global Error Handler (middleware);
 
 app.use((err, req, res, next) => {

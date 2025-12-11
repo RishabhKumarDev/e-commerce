@@ -153,9 +153,47 @@ export const filterOptions = {
 };
 
 export const sortOptions = [
-    {id:"price-lowtohigh", label: "Price: Low to High"},
-    {id:"price-hightolow", label: "Price: High to Low"},
-    {id:"title-atoz", label: "Title: A to Z"},
-    {id:"title-ztoa", label: "Title: Z to A"},
+    { id: "price-lowtohigh", label: "Price: Low to High" },
+    { id: "price-hightolow", label: "Price: High to Low" },
+    { id: "title-atoz", label: "Title: A to Z" },
+    { id: "title-ztoa", label: "Title: Z to A" },
 
 ]
+
+export const addressFormControls = [
+    {
+        name: "address",
+        label: "Address",
+        placeholder: "Enter your address",
+        componentType: "input",
+        type: "text"
+    },
+    {
+        name: "city",
+        label: "City",
+        placeholder: "Enter your city",
+        componentType: "input",
+        type: "text"
+    },
+    {
+        name: "pincode",
+        label: "Pincode",
+        placeholder: "Enter your pincode",
+        componentType: "input",
+        type: "text"
+    },
+    {
+        name: "phone",
+        label: "Phone",
+        placeholder: "Enter your Phone number",
+        componentType: "input",
+        type: "text"
+    },
+    {
+        name: "notes",
+        label: "Notes",
+        placeholder: "Add some aditional notes",
+        componentType: "textarea",
+        type: "textarea"
+    },
+];
