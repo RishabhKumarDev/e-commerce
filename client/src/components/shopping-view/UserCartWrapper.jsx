@@ -2,8 +2,10 @@ import CartItemsContent from "@/components/shopping-view/CartItemsContent";
 import { Button } from "@/components/ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Rat } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-function UserCartWrapper({ cartItems }) {
+function UserCartWrapper({ cartItems, setOpenCartSheet }) {
+  const navigate = useNavigate();
   const totalAmount =
     cartItems && cartItems.length > 0
       ? cartItems.reduce(
@@ -34,7 +36,15 @@ function UserCartWrapper({ cartItems }) {
           <span className="font-bold">${totalAmount}</span>
         </div>
       </div>
-      <Button className="w-full mt-6">CheckOut</Button>
+      <Button
+        onClick={() => {
+          navigate("/shopping/checkout");
+          setOpenCartSheet(false);
+        }}
+        className="w-full mt-6"
+      >
+        CheckOut
+      </Button>
     </SheetContent>
   );
 }
