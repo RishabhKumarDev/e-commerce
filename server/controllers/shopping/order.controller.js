@@ -67,7 +67,7 @@ const createOrder = async (req, res) => {
 
             await newOrder.save();
             const approvalURL = paymentInfo.links.find(link => link.rel === "approval_url").href;
-            res.status(201).json(new ApiResponse(201, {approvalURL, orderId: newOrder._id}))
+            res.status(201).json(new ApiResponse(201, { approvalURL, orderId: newOrder._id }, "order created successfully"))
 
         }
     })
