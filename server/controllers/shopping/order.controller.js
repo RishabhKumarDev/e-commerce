@@ -3,7 +3,7 @@ import { Order } from '../../models/order.model.js';
 import { ApiError } from '../../utils/ApiError.js';
 import { ApiResponse } from '../../utils/ApiResponse.js';
 
-const createOrder = async (req, res) => {
+const createOrder = async (req, res, next) => {
     const {
         userId,
         cartItems,
@@ -18,6 +18,18 @@ const createOrder = async (req, res) => {
         payerId,
     } = req.body;
 
+    const items = cartItems.map(item => ({
+        name: item.title,
+        sku: item.productId,
+        price: Number(item.price).toFixed(2),
+        currency: "USD",
+        quantity: item.quantity,
+    }));
+
+    const itemsTotal = items.reduce((sum, item) => {
+        return sum + Number(item.price) * item.quantity;
+    }, 0);
+    
     const create_payment_json = {
         intent: "sale",
         payer: {
@@ -25,22 +37,16 @@ const createOrder = async (req, res) => {
         },
         redirect_urls: {
             return_url: "http://localhost:5173/shopping/paypal-return",
-            calcle_url: "http://localhost:5173/shopping/paypal-cancel"
+            cancel_url: "http://localhost:5173/shopping/paypal-cancel"
         },
         transactions: [
             {
                 item_list: {
-                    items: cartItems.map(cartItem => ({
-                        name: cartItem.title,
-                        sku: cartItem.productId,
-                        price: cartItem.price.toFixed(2),
-                        currency: "USD",
-                        quantity: cartItem.quantity,
-                    }))
+                    items
                 },
                 amount: {
                     currency: "USD",
-                    total: totalAmount.toFixed(2)
+                    total: itemsTotal.toFixed(2)
                 },
                 description: "description"
             }
@@ -49,7 +55,7 @@ const createOrder = async (req, res) => {
 
     paypal.payment.create(create_payment_json, async (error, paymentInfo) => {
         if (error) {
-            throw new ApiError(500, "Error while creating payment")
+            return next(new ApiError(500, "Error while creating payment"));
         } else {
             const newOrder = new Order({
                 userId,
