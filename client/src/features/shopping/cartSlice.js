@@ -4,6 +4,7 @@ import axios from 'axios';
 const initialState = {
     cartItems: [],
     isLoading: false,
+    cartId: null,
 }
 
 export const addToCart = createAsyncThunk("shoppingCart/addToCart", async ({ userId, productId, quantity }, { rejectWithValue }) => {
@@ -62,11 +63,13 @@ const cartSlice = createSlice({
             })
             .addCase(fetchCartItems.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.cartId = action.payload?.data?._id
                 state.cartItems = action.payload?.data?.structuredItems;
             })
             .addCase(fetchCartItems.rejected, (state, action) => {
                 state.isLoading = false;
                 state.cartItems = [];
+                state.cartId = null
             })
             .addCase(updateCartItemQty.pending, (state) => {
                 state.isLoading = true;
@@ -78,6 +81,7 @@ const cartSlice = createSlice({
             .addCase(updateCartItemQty.rejected, (state, action) => {
                 state.isLoading = false;
                 state.cartItems = [];
+                state.cartId = null
             })
             .addCase(deleteCartItem.pending, (state) => {
                 state.isLoading = true;

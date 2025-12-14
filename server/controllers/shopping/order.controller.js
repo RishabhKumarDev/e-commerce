@@ -16,6 +16,7 @@ const createOrder = async (req, res, next) => {
         orderUpdateDate,
         paymentId,
         payerId,
+        cartId,
     } = req.body;
 
     const items = cartItems.map(item => ({
@@ -69,6 +70,7 @@ const createOrder = async (req, res, next) => {
                 orderUpdateDate,
                 paymentId,
                 payerId,
+                cartId,
             });
 
             await newOrder.save();

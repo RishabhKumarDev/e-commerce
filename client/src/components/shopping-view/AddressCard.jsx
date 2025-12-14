@@ -2,9 +2,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
-function AddressCard({ addressInfo, handleAddressDelete, handleAddressUpdate }) {
+function AddressCard({
+  addressInfo,
+  handleAddressDelete,
+  handleAddressUpdate,
+  setSelectedAddress,
+}) {
   return (
-    <Card>
+    <Card
+      onClick={
+        setSelectedAddress ? () => setSelectedAddress(addressInfo) : null
+      }
+    >
       <CardContent className="grid gap-4">
         <Label> Address: {addressInfo?.address}</Label>
         <Label>City: {addressInfo?.city}</Label>
@@ -12,7 +21,7 @@ function AddressCard({ addressInfo, handleAddressDelete, handleAddressUpdate }) 
         <Label> Phone: {addressInfo?.phone}</Label>
         <Label> Notes:- {addressInfo?.notes}</Label>
       </CardContent>
-      <CardFooter className="flex justify-between mb-0" >
+      <CardFooter className="flex justify-between mb-0">
         <Button onClick={() => handleAddressUpdate(addressInfo)}> Edit </Button>
         <Button onClick={() => handleAddressDelete(addressInfo?._id)}>
           Delete

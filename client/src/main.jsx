@@ -24,7 +24,8 @@ import CheckAuth from "./components/common/CheckAuth";
 import AdminDashboard from "./pages/admin-view/Dashboard";
 import Unauthorized from "./pages/un-auth/Unauthorized";
 import { Toaster } from "@/components/ui/sonner";
-
+import PaypalReturn from "@/pages/shopping-view/PaypalReturn";
+import PaypalCancle from "@/pages/shopping-view/PaypalCancle";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,8 @@ const router = createBrowserRouter([
                   { path: "checkout", Component: ShoppingCheckout },
                   { path: "listing", Component: ShoppingListing },
                   { path: "account", Component: ShoppingAccount },
+                  { path: "paypal-return", Component: PaypalReturn },
+                  { path: "paypal-cancel", Component: PaypalCancle },
                 ],
               },
             ],
