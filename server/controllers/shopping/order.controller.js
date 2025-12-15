@@ -1,5 +1,6 @@
 import paypal from '../../helpers/paypal.js';
 import { Order } from '../../models/order.model.js';
+import { Cart } from '../../models/cart.model.js';
 import { ApiError } from '../../utils/ApiError.js';
 import { ApiResponse } from '../../utils/ApiResponse.js';
 
@@ -30,7 +31,7 @@ const createOrder = async (req, res, next) => {
     const itemsTotal = items.reduce((sum, item) => {
         return sum + Number(item.price) * item.quantity;
     }, 0);
-    
+
     const create_payment_json = {
         intent: "sale",
         payer: {
@@ -80,9 +81,64 @@ const createOrder = async (req, res, next) => {
         }
     })
 };
-const capturePayment = async (req, res) => { };
 
+const capturePayment = async (req, res) => {
+    const { orderId, paymentId, payerId } = req.body;
+
+    const order = await Order.findOneAndUpdate({ _id: orderId, orderStatus: "pending", paymentStatus: "pending" }, {
+        $set: {
+            orderStatus: "confirmed",
+            paymentStatus: "paid",
+            payerId,
+            paymentId,
+        }
+    }, { new: true });
+
+    if (!order) {
+        throw new ApiError(404, "Order doesn't exist");
+    }
+    let cartId = order.cartId;
+    await Cart.findByIdAndDelete(cartId);
+
+    res.status(200)
+        .json(new ApiResponse(200, order, "Order Confirmed "))
+};
+
+const getAllOrdersByUser = async (req, res) => {
+    const { userId } = req.params;
+    if (!userId) {
+        throw new ApiError(400, "userId is required");
+    }
+
+    const orders = await Order.find({ userId })
+
+    if (orders.length === 0) {
+        throw new ApiError(404, "Couldn't found orders");
+    }
+
+    res.status(200)
+        .json(new ApiResponse(200, orders, "successfully fetched Orders"))
+}
+
+const getOrderDetails = async (req, res) => {
+    const { orderId } = req.params;
+ 
+    if (!orderId) {
+        throw new ApiError(400, "OrderId is required");
+    }
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+        throw new ApiError(400, "Order Doesn't exist");
+    }
+
+    res.status(200)
+        .json(new ApiResponse(200, order, "successfully fetched order details"))
+}
 export {
     createOrder,
-    capturePayment
+    capturePayment,
+    getAllOrdersByUser,
+    getOrderDetails
 }
