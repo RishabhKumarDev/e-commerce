@@ -28,6 +28,15 @@ function ShoppingCheckout() {
       : 0;
 
   const handleOrderCreation = async () => {
+    if (cartItems.length === 0) {
+      toast.warning("Cart is Empty. Please add items to proceed.");
+      return;
+    }
+
+    if (selectedAddress === null) {
+      toast.warning("Please Select a Address to Proceed.");
+      return;
+    }
     const orderData = {
       userId: user?._id,
       cartId,
@@ -65,7 +74,7 @@ function ShoppingCheckout() {
     }
   };
 
-  if(approvalURL){
+  if (approvalURL) {
     window.location.href = approvalURL;
   }
   return (

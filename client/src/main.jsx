@@ -26,6 +26,7 @@ import Unauthorized from "./pages/un-auth/Unauthorized";
 import { Toaster } from "@/components/ui/sonner";
 import PaypalReturn from "@/pages/shopping-view/PaypalReturn";
 import PaypalCancle from "@/pages/shopping-view/PaypalCancle";
+import PaymentSuccess from "@/pages/shopping-view/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,7 @@ const router = createBrowserRouter([
                   { path: "account", Component: ShoppingAccount },
                   { path: "paypal-return", Component: PaypalReturn },
                   { path: "paypal-cancel", Component: PaypalCancle },
+                  { path: "payment-success", Component: PaymentSuccess },
                 ],
               },
             ],
