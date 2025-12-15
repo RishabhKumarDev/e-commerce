@@ -12,7 +12,7 @@ export const addAddress = createAsyncThunk("address/add", async (address, { reje
         const result = await axios.post("http://localhost:5000/api/shopping/address/add", address);
         return result?.data;
     } catch (error) {
-        rejectWithValue(error.response);
+        return rejectWithValue(error.response);
     }
 });
 
@@ -21,7 +21,7 @@ export const fetchAllAddressess = createAsyncThunk("address/fetchAllAddressess",
         const result = await axios.get(`http://localhost:5000/api/shopping/address/get/${userId}`);
         return result?.data;
     } catch (error) {
-        rejectWithValue(error.response);
+        return rejectWithValue(error.response);
     }
 })
 
@@ -30,7 +30,7 @@ export const updateAddress = createAsyncThunk("address/update", async ({ userId,
         const result = await axios.put(`http://localhost:5000/api/shopping/address/update/${userId}/${addressId}`, formData);
         return result?.data;
     } catch (error) {
-        rejectWithValue(error.response);
+        return rejectWithValue(error.response);
     }
 })
 
@@ -39,7 +39,7 @@ export const deleteAddress = createAsyncThunk("address/delete", async ({ userId,
         const result = await axios.delete(`http://localhost:5000/api/shopping/address/delete/${userId}/${addressId}`);
         return result?.data;
     } catch (error) {
-        rejectWithValue(error.response);
+        return rejectWithValue(error.response);
     }
 })
 

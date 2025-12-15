@@ -10,9 +10,8 @@ const initialState = {
 export const addToCart = createAsyncThunk("shoppingCart/addToCart", async ({ userId, productId, quantity }, { rejectWithValue }) => {
     try {
         const result = await axios.post("http://localhost:5000/api/shopping/cart/add", { userId, productId, quantity });
-        return result?.data;
     } catch (error) {
-        rejectWithValue(error.response);
+        return rejectWithValue(error.response);
     }
 });
 
@@ -21,7 +20,7 @@ export const fetchCartItems = createAsyncThunk("shoppingCart/fetchCartItems", as
         const result = await axios.get(`http://localhost:5000/api/shopping/cart/get/${userId}`);
         return result?.data;
     } catch (error) {
-        rejectWithValue(error.response);
+        return rejectWithValue(error.response);
     }
 });
 
@@ -30,7 +29,7 @@ export const updateCartItemQty = createAsyncThunk("shoppingCart/updateCartItemQt
         const result = await axios.put("http://localhost:5000/api/shopping/cart/update-cart", { userId, productId, quantity })
         return result?.data;
     } catch (error) {
-        rejectWithValue(error.response);
+        return rejectWithValue(error.response);
     }
 });
 
@@ -39,7 +38,7 @@ export const deleteCartItem = createAsyncThunk("shoppingCart/deleteCartItem", as
         const result = await axios.delete(`http://localhost:5000/api/shopping/cart/${userId}/${productId}`)
         return result?.data;
     } catch (error) {
-        rejectWithValue(error.response)
+        return rejectWithValue(error.response)
     }
 })
 const cartSlice = createSlice({
