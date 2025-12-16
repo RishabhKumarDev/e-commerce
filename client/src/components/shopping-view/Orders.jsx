@@ -74,7 +74,10 @@ function ShoppingOrders() {
                   <TableCell>
                     <Badge
                       className={`py-1 px-3 mb-0.5 ${
-                        order?.orderStatus === "confirmed" ? "bg-green-700" : ""
+                        order?.orderStatus === "confirmed" ? "bg-green-700" 
+                        : 
+                        order?.orderStatus === "rejected" ?"bg-red-800" :
+                         ""
                       }`}
                     >
                       {order?.orderStatus}

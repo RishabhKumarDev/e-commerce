@@ -25,6 +25,8 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                 className={`py-1 px-3 mb-0.5 ${
                   orderDetails?.orderStatus === "confirmed"
                     ? "bg-green-700"
+                    : orderDetails?.orderStatus === "rejected"
+                    ? "bg-red-800"
                     : ""
                 }`}
               >
@@ -34,7 +36,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
           </div>
           <div className="flex items-center justify-between mt-2">
             <p className="font-medium">Order Price</p>
-            <Label>${orderDetails?.payment}</Label>
+            <Label>${orderDetails?.totalAmount}</Label>
           </div>
           <div className="flex items-center justify-between mt-2">
             <p className="font-medium">Payment Method</p>
