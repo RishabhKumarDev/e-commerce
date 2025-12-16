@@ -45,6 +45,8 @@ function ShoppingListing() {
     (state) => state.shoppingProducts
   );
   const { user } = useSelector((state) => state.auth);
+
+  const categorySearchParams = searchParams.get("category")
   const handleSort = (value) => {
     setSort(value);
   };
@@ -96,7 +98,7 @@ function ShoppingListing() {
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
-  }, []);
+  }, [categorySearchParams]);
 
   useEffect(() => {
     if (filters !== null && sort !== null) {

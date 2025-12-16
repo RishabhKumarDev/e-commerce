@@ -17,16 +17,30 @@ import { fetchCartItems } from "@/features/shopping/cartSlice";
 import { CircleUser, Home, LogOut, Menu, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 function MenuItems() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   function handleNavigate(item) {
     sessionStorage.removeItem("filters");
-    let filter = item.id !== "home" ? { category: [item.id] } : null;
+    let filter =
+      item.id !== "home" && item.id !== "products"
+        ? { category: [item.id] }
+        : null;
     sessionStorage.setItem("filters", JSON.stringify(filter));
-    navigate(item.path);
+
+    location.pathname.includes("listing") && filter !== null
+      ? setSearchParams({ category: item.id })
+      : navigate(item.path);
   }
 
   return (
@@ -68,7 +82,10 @@ function HeaderRightContent() {
           <ShoppingCart className="w-6 h-6" />
           <span className="sr-only">User Shopping Cart</span>
         </Button>
-        <UserCartWrapper setOpenCartSheet={setOpenCartSheet} cartItems={cartItems} />
+        <UserCartWrapper
+          setOpenCartSheet={setOpenCartSheet}
+          cartItems={cartItems}
+        />
       </Sheet>
 
       <DropdownMenu asChild>
