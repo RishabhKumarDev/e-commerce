@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
 import authRouter from './routes/auth/auth.routes.js';
 import { ApiResponse } from './utils/ApiResponse.js';
 import adminProductsRouter from './routes/admin/products.routes.js';
+import adminOrderRouter from './routes/admin/orders.routes.js';
 import shoppingProductRouter from './routes/shopping/products.routes.js';
 import shoppingCartRouter from './routes/shopping/cart.routes.js';
 import shoppingAddressRouter from './routes/shopping/address.routes.js';
@@ -39,6 +40,7 @@ import shoppingOrderRouter from './routes/shopping/order.routes.js';
 //router deceleration
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
+app.use("/api/admin/orders", adminOrderRouter);
 app.use("/api/shopping/products", shoppingProductRouter);
 app.use("/api/shopping/cart", shoppingCartRouter)
 app.use("/api/shopping/address", shoppingAddressRouter);
