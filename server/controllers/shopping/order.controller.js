@@ -1,6 +1,7 @@
 import paypal from '../../helpers/paypal.js';
 import { Order } from '../../models/order.model.js';
 import { Cart } from '../../models/cart.model.js';
+import { Product } from '../../models/product.model.js';
 import { ApiError } from '../../utils/ApiError.js';
 import { ApiResponse } from '../../utils/ApiResponse.js';
 
@@ -85,21 +86,32 @@ const createOrder = async (req, res, next) => {
 const capturePayment = async (req, res) => {
     const { orderId, paymentId, payerId } = req.body;
 
-    const order = await Order.findOneAndUpdate({ _id: orderId, orderStatus: "pending", paymentStatus: "pending" }, {
-        $set: {
-            orderStatus: "confirmed",
-            paymentStatus: "paid",
-            payerId,
-            paymentId,
-        }
-    }, { new: true });
+    const order = await Order.findById(orderId);
 
     if (!order) {
         throw new ApiError(404, "Order doesn't exist");
     }
+
+    order.paymentStatus = "paid";
+    order.orderStatus = "confirmed";
+    order.paymentId = paymentId;
+    order.payerId = payerId;
+
+    for (let item of order.cartItems) {
+        const result = await Product.updateOne(
+            { _id: item.productId, totalStock: { $gte: item.quantity } },
+            { $inc: { totalStock: -item.quantity } }
+        );
+
+        if (result.modifiedCount === 0) {
+            console.log(result)
+            throw new ApiError(404, `${item.title} is Out of stock`);
+        }
+    }
     let cartId = order.cartId;
     await Cart.findByIdAndDelete(cartId);
 
+    await order.save();
     res.status(200)
         .json(new ApiResponse(200, order, "Order Confirmed "))
 };
@@ -122,7 +134,7 @@ const getAllOrdersByUser = async (req, res) => {
 
 const getOrderDetails = async (req, res) => {
     const { orderId } = req.params;
- 
+
     if (!orderId) {
         throw new ApiError(400, "OrderId is required");
     }
