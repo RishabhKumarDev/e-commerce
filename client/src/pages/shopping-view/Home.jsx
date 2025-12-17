@@ -54,6 +54,7 @@ function ShoppingHome() {
     (state) => state.shoppingProducts
   );
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shoppingCart);
   const [openProductDialog, setOpentProductDialog] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,8 +74,17 @@ function ShoppingHome() {
     }
   };
 
-  const handleAddToCart = async (getProductId) => {
-    console.log(getProductId);
+  const handleAddToCart = async (getProductId, totalStock) => {
+    const cartItem = cartItems?.find((item) => item._id === getProductId);
+    if (cartItem) {
+      let quantity = cartItem.quantity >= totalStock;
+      if (quantity) {
+        toast.warning(
+          "You’ve reached the maximum available stock for this item."
+        );
+        return;
+      }
+    }
     try {
       const response = await dispatch(
         addToCart({ userId: user?._id, productId: getProductId, quantity: 1 })

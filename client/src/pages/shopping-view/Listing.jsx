@@ -45,8 +45,9 @@ function ShoppingListing() {
     (state) => state.shoppingProducts
   );
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shoppingCart);
 
-  const categorySearchParams = searchParams.get("category")
+  const categorySearchParams = searchParams.get("category");
   const handleSort = (value) => {
     setSort(value);
   };
@@ -74,8 +75,17 @@ function ShoppingListing() {
     }
   };
 
-  const handleAddToCart = async (getProductId) => {
-    console.log(getProductId);
+  const handleAddToCart = async (getProductId, totalStock) => {
+    const cartItem = cartItems?.find((item) => item._id === getProductId);
+    if (cartItem) {
+      let quantity = cartItem.quantity >= totalStock;
+      if (quantity) {
+        toast.warning(
+          "You’ve reached the maximum available stock for this item."
+        );
+        return;
+      }
+    }
     try {
       const response = await dispatch(
         addToCart({ userId: user?._id, productId: getProductId, quantity: 1 })
@@ -113,6 +123,7 @@ function ShoppingListing() {
       setOpentProductDialog(true);
     }
   }, [productDetails]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
@@ -143,7 +154,7 @@ function ShoppingListing() {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          { productList && productList.length > 0 ? (
+          {productList && productList.length > 0 ? (
             productList.map((product) => (
               <ShoppingProductTile
                 getProductDetails={getProductDetails}

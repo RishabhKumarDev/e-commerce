@@ -6,9 +6,11 @@ import {
 } from "@/features/shopping/cartSlice";
 import { Minus, Plus, Trash, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 function CartItemsContent({ cartItem }) {
   const { user } = useSelector((state) => state.auth);
+  const { productList } = useSelector((state) => state.shoppingProducts);
   const dispatch = useDispatch();
 
   const handleCartItemDelete = async (getProdutId) => {
@@ -26,6 +28,19 @@ function CartItemsContent({ cartItem }) {
     typeOfAction,
     currentQnt
   ) => {
+    if (typeOfAction === "add") {
+      const findCartItem = productList?.find(
+        (product) => product._id === getProdutId
+      );
+      if (findCartItem) {
+        let quantity = currentQnt >= findCartItem.totalStock;
+
+        if (quantity) {
+          toast.warning("Product Stock Limit reached, Can't add more items");
+          return;
+        }
+      }
+    }
     try {
       let quantity = typeOfAction === "add" ? currentQnt + 1 : currentQnt - 1;
       await dispatch(
