@@ -27,6 +27,7 @@ import { Toaster } from "@/components/ui/sonner";
 import PaypalReturn from "@/pages/shopping-view/PaypalReturn";
 import PaypalCancle from "@/pages/shopping-view/PaypalCancle";
 import PaymentSuccess from "@/pages/shopping-view/PaymentSuccess";
+import SearchProducts from "@/pages/shopping-view/SearchProducts";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,7 @@ const router = createBrowserRouter([
                   { path: "paypal-return", Component: PaypalReturn },
                   { path: "paypal-cancel", Component: PaypalCancle },
                   { path: "payment-success", Component: PaymentSuccess },
+                  { path: "search", Component: SearchProducts },
                 ],
               },
             ],

@@ -33,7 +33,7 @@ function MenuItems() {
   function handleNavigate(item) {
     sessionStorage.removeItem("filters");
     let filter =
-      item.id !== "home" && item.id !== "products"
+      item.id !== "home" && item.id !== "products" && item.id !== "search"
         ? { category: [item.id] }
         : null;
     sessionStorage.setItem("filters", JSON.stringify(filter));

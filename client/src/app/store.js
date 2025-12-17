@@ -6,16 +6,19 @@ import shoppingProductsReducers from '../features/shopping/shoppingSlice';
 import ShoppingCartReducer from '../features/shopping/cartSlice';
 import ShoppingAddressReducer from '../features/shopping/addressSlice';
 import ShoppingOrderReducer from '../features/shopping/orderSlice';
+import ShoppingSearchReducer from '../features/shopping/searchSlice';
+
 
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
         adminProducts: adminProductsReducers,
-        adminOrders:adminOrderSlice,
+        adminOrders: adminOrderSlice,
         shoppingProducts: shoppingProductsReducers,
         shoppingCart: ShoppingCartReducer,
         shoppingAddress: ShoppingAddressReducer,
         shoppingOrder: ShoppingOrderReducer,
+        shoppingSearch: ShoppingSearchReducer,
     },
 });
