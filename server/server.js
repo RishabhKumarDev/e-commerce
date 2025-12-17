@@ -35,6 +35,7 @@ import shoppingProductRouter from './routes/shopping/products.routes.js';
 import shoppingCartRouter from './routes/shopping/cart.routes.js';
 import shoppingAddressRouter from './routes/shopping/address.routes.js';
 import shoppingOrderRouter from './routes/shopping/order.routes.js';
+import shoppingSearchRouter from './routes/shopping/search.routes.js';
 
 
 //router deceleration
@@ -45,6 +46,7 @@ app.use("/api/shopping/products", shoppingProductRouter);
 app.use("/api/shopping/cart", shoppingCartRouter)
 app.use("/api/shopping/address", shoppingAddressRouter);
 app.use("/api/shopping/order", shoppingOrderRouter);
+app.use("/api/shopping/search", shoppingSearchRouter);
 
 // global Error Handler (middleware);
 
