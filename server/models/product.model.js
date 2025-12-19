@@ -9,6 +9,8 @@ const productSchema = new mongoose.Schema({
     price: Number,
     salePrice: Number,
     totalStock: Number,
+    averageReview: Number,
+    reviewCount: Number,
 }, { timestamps: true })
 
 const Product = mongoose.model("Product", productSchema);

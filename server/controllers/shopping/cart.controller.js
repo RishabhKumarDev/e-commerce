@@ -74,7 +74,9 @@ const fetchCartItems = async (req, res) => {
     })
 
     if (!cart) {
-        throw new ApiError(404, "Cart doesn't exists");
+        res
+            .status(200)
+            .json(new ApiResponse(200, cart, "successfully fetched cart items"));
     }
 
     const validItems = cart.items.filter(productItem => productItem.productId);
