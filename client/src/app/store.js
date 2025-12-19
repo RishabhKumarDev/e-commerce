@@ -7,6 +7,7 @@ import ShoppingCartReducer from '../features/shopping/cartSlice';
 import ShoppingAddressReducer from '../features/shopping/addressSlice';
 import ShoppingOrderReducer from '../features/shopping/orderSlice';
 import ShoppingSearchReducer from '../features/shopping/searchSlice';
+import ShoppingReviewReducer from '../features/shopping/reviewSlice';
 
 
 
@@ -20,5 +21,6 @@ export const store = configureStore({
         shoppingAddress: ShoppingAddressReducer,
         shoppingOrder: ShoppingOrderReducer,
         shoppingSearch: ShoppingSearchReducer,
+        shoppingReview: ShoppingReviewReducer,
     },
 });
