@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import ProductDetailsDialog from "@/components/shopping-view/ProductDetails";
 import { toast } from "sonner";
 import { addToCart, fetchCartItems } from "@/features/shopping/cartSlice";
+import { getBannerImages } from "@/features/common/bannerSlice";
 
 const categoriesWithIcons = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -46,7 +47,6 @@ const brandsWithIcons = [
   { id: "zara", label: "Zara", icon: ShoppingBag },
   { id: "h&m", label: "H&M", icon: ShoppingBasket },
 ];
-const slides = [banner1, banner2, banner3];
 
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -55,6 +55,10 @@ function ShoppingHome() {
   );
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shoppingCart);
+  const { bannerImages } = useSelector((state) => state.commonBanner);
+
+  const slideCount = bannerImages?.length || 0;
+
   const [openProductDialog, setOpentProductDialog] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -97,13 +101,22 @@ function ShoppingHome() {
     }
   };
 
+  const fetchBannerImages = async () => {
+    try {
+      await dispatch(getBannerImages()).unwrap();
+    } catch (error) {
+      toast.error(error?.data.message);
+    }
+  };
+
   useEffect(() => {
+    if (slideCount === 0) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, 5000);
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % slideCount);
+    }, 4000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [slideCount]);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -128,27 +141,30 @@ function ShoppingHome() {
     }
   }, [productDetails]);
 
-  console.log(productList, " produnt list in home ");
+  useEffect(() => {
+    fetchBannerImages();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
-        {slides.map((slide, idx) => (
-          <img
-            src={slide}
-            key={idx}
-            className={`${
-              idx === currentSlide ? "opacity-100" : "opacity-0"
-            } absolute top-0 left-0 object-cover w-full h-full transition-opacity duration-1000`}
-          />
-        ))}
+        {bannerImages && bannerImages.length > 0
+          ? bannerImages.map((bImg, idx) => (
+              <img
+                src={bImg.image}
+                key={idx}
+                className={`${
+                  idx === currentSlide ? "opacity-100" : "opacity-0"
+                } absolute top-0 left-0 object-cover w-full h-full transition-opacity duration-1000`}
+              />
+            ))
+          : null}
         <Button
           variant="outline"
           size="icon"
           className="absolute transform -translate-y-1/2 top-1/2 left-4 bg-white/80"
           onClick={() =>
-            setCurrentSlide(
-              (prevSlide) => (prevSlide - 1 + slides.length) % slides.length
-            )
+            setCurrentSlide((prevSlide) => (prevSlide - 1 + slides) % slideCount)
           }
         >
           <CircleChevronLeft className="w-4 h-4" />
@@ -158,7 +174,7 @@ function ShoppingHome() {
           size="icon"
           className="absolute transform -translate-y-1/2 top-1/2 right-4 bg-white/80"
           onClick={() =>
-            setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length)
+            setCurrentSlide((prevSlide) => (prevSlide + 1) % slideCount)
           }
         >
           <CircleChevronRight className="w-4 h-4" />

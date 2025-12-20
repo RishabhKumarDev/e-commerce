@@ -8,6 +8,7 @@ import ShoppingAddressReducer from '../features/shopping/addressSlice';
 import ShoppingOrderReducer from '../features/shopping/orderSlice';
 import ShoppingSearchReducer from '../features/shopping/searchSlice';
 import ShoppingReviewReducer from '../features/shopping/reviewSlice';
+import CommonBannerReducer from '../features/common/bannerSlice';
 
 
 
@@ -22,5 +23,6 @@ export const store = configureStore({
         shoppingOrder: ShoppingOrderReducer,
         shoppingSearch: ShoppingSearchReducer,
         shoppingReview: ShoppingReviewReducer,
+        commonBanner: CommonBannerReducer
     },
 });

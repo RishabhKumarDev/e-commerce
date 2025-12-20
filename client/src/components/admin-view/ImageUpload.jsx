@@ -14,6 +14,7 @@ function ProductImageUpload({
   imageLoadingState,
   setImageLoadingState,
   isEditMode,
+  lableText="Upload Image"
 }) {
   const inputRef = useRef(null);
   const handleImageFileChange = (event) => {
@@ -72,7 +73,7 @@ function ProductImageUpload({
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <Label className="block mb-2 text-lg font-semibold">Upload Image</Label>
+      <Label className="block mb-2 text-lg font-semibold">{lableText}</Label>
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
