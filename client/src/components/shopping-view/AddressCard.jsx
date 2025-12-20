@@ -7,14 +7,20 @@ function AddressCard({
   handleAddressDelete,
   handleAddressUpdate,
   setSelectedAddress,
+  selectedAddress,
 }) {
   return (
     <Card
       onClick={
         setSelectedAddress ? () => setSelectedAddress(addressInfo) : null
       }
+      className={`cursor-pointer transition ${
+        selectedAddress?._id === addressInfo?._id
+          ? "border-primary bg-primary/5"
+          : "border-muted hover:border-primary/40"
+      }`}
     >
-      <CardContent className="grid gap-4">
+      <CardContent className={`grid gap-4 `}>
         <Label> Address: {addressInfo?.address}</Label>
         <Label>City: {addressInfo?.city}</Label>
         <Label> Pincode: {addressInfo?.pincode}</Label>

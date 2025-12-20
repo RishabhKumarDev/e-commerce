@@ -19,7 +19,7 @@ const initialAddressFormData = {
   phone: "",
   notes: "",
 };
-function Address({ setSelectedAddress }) {
+function Address({ setSelectedAddress, selectedAddress }) {
   const [formData, setFormData] = useState(initialAddressFormData);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const dispatch = useDispatch();
@@ -112,6 +112,7 @@ function Address({ setSelectedAddress }) {
               handleAddressDelete={handleAddressDelete}
               addressInfo={singleAddress}
               handleAddressUpdate={handleAddressUpdate}
+              selectedAddress={selectedAddress}
             />
           ))
         ) : (

@@ -22,6 +22,17 @@ function CheckAuth({ children }) {
     return <Loader />;
   }
 
+  if (location.pathname === "/") {
+    if (!isAuthanticated) {
+      return <Navigate to="/login" />;
+    } else {
+      if (user?.role === "admin") {
+        return <Navigate to="/admin/dashboard" />;
+      } else {
+        return <Navigate to="/shopping/home" />;
+      }
+    }
+  }
   // user not authanticated trying to access normal page
   if (
     !isAuthanticated &&

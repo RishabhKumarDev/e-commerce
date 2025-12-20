@@ -86,7 +86,10 @@ function ShoppingCheckout() {
         />
       </div>
       <div className="grid grid-cols-1 gap-5 p-5 mt-5 sm:grid-cols-2">
-        <Address setSelectedAddress={setSelectedAddress} />
+        <Address
+          selectedAddress={selectedAddress}
+          setSelectedAddress={setSelectedAddress}
+        />
         <div className="flex flex-col gap-4">
           {cartItems && cartItems.length > 0
             ? cartItems.map((item) => (
@@ -101,7 +104,7 @@ function ShoppingCheckout() {
           </div>
           <div className="mt-4">
             <Button onClick={handleOrderCreation} className="w-full">
-              Checkout with Paypal
+              {isPaymentStart ? "Processing payment..." : "Checkout with Paypal"}
             </Button>
           </div>
         </div>

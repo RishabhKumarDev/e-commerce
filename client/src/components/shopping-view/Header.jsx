@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Link,
-  NavLink,
   useLocation,
   useNavigate,
   useSearchParams,
@@ -78,8 +77,10 @@ function HeaderRightContent() {
           onClick={() => setOpenCartSheet(true)}
           variant="outline"
           size="icon"
+          className={"relative"}
         >
           <ShoppingCart className="w-6 h-6" />
+          <span className="absolute -top-0.5 right-1 text-sm font-bold">{cartItems.length || 0}</span>
           <span className="sr-only">User Shopping Cart</span>
         </Button>
         <UserCartWrapper
