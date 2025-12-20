@@ -12,7 +12,7 @@ const initialState = {
 // Add Product...
 export const addNewProduct = createAsyncThunk("adminProducts/addNewProduct", async (formData, { rejectWithValue }) => {
     try {
-        const result = await axios.post("http://localhost:5000/api/admin/products/add", formData, {
+        const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/admin/products/add`, formData, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -26,7 +26,7 @@ export const addNewProduct = createAsyncThunk("adminProducts/addNewProduct", asy
 // Fetch Products...
 export const fetchAllProducts = createAsyncThunk("adminProducts/fetchAllProducts", async (_, { rejectWithValue }) => {
     try {
-        const result = await axios.get("http://localhost:5000/api/admin/products/get");
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/products/get`);
         return result?.data
     } catch (error) {
         return rejectWithValue(error.response);
@@ -36,7 +36,7 @@ export const fetchAllProducts = createAsyncThunk("adminProducts/fetchAllProducts
 // Edit Product...
 export const editProduct = createAsyncThunk("adminProducts/editProduct", async ({ id, formData }, { rejectWithValue }) => {
     try {
-        const result = await axios.patch(`http://localhost:5000/api/admin/products/edit/${id}`, formData, {
+        const result = await axios.patch(`${import.meta.env.VITE_API_URL}/api/admin/products/edit/${id}`, formData, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -51,7 +51,7 @@ export const editProduct = createAsyncThunk("adminProducts/editProduct", async (
 // Delete Product...
 export const deleteProduct = createAsyncThunk("adminProducts/deleteProduct", async (id, { rejectWithValue }) => {
     try {
-        const result = await axios.delete(`http://localhost:5000/api/admin/products/delete/${id}`);
+        const result = await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/products/delete/${id}`);
         return result?.data
     } catch (error) {
         return rejectWithValue(error.response);

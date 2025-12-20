@@ -13,7 +13,7 @@ const initialState = {
 
 export const createOrder = createAsyncThunk("shoppingOrder/createOrder", async (orderData, { rejectWithValue }) => {
     try {
-        const result = await axios.post("http://localhost:5000/api/shopping/order/create", orderData);
+        const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/shopping/order/create`, orderData);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error?.response);
@@ -22,7 +22,7 @@ export const createOrder = createAsyncThunk("shoppingOrder/createOrder", async (
 
 export const capturePayment = createAsyncThunk("shoppingOrder/capturePayment", async ({ orderId, paymentId, payerId }, { rejectWithValue }) => {
     try {
-        const result = await axios.post("http://localhost:5000/api/shopping/order/capture", { orderId, paymentId, payerId });
+        const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/shopping/order/capture`, { orderId, paymentId, payerId });
         return result?.data;
     } catch (error) {
         return rejectWithValue(error?.response);
@@ -32,7 +32,7 @@ export const capturePayment = createAsyncThunk("shoppingOrder/capturePayment", a
 
 export const getAllOrdersByUser = createAsyncThunk("shoppingOrder/allOrders", async (userId, { rejectWithValue }) => {
     try {
-        const result = await axios.get(`http://localhost:5000/api/shopping/order/list/${userId}`);
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/shopping/order/list/${userId}`);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error?.response);
@@ -42,7 +42,7 @@ export const getAllOrdersByUser = createAsyncThunk("shoppingOrder/allOrders", as
 
 export const getOrderDetails = createAsyncThunk("shoppingOrder/orderDetails", async (orderId, { rejectWithValue }) => {
     try {
-        const result = await axios.get(`http://localhost:5000/api/shopping/order/details/${orderId}`);
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/shopping/order/details/${orderId}`);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error?.response);

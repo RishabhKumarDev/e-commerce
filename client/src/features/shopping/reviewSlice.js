@@ -15,7 +15,7 @@ export const addReview = createAsyncThunk("review/add", async ({ productId,
     reviewMessage,
     reviewValue, }, { rejectWithValue }) => {
     try {
-        const result = await axios.post("http://localhost:5000/api/shopping/review/add", { productId, userId, userName, reviewMessage, reviewValue })
+        const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/shopping/review/add`, { productId, userId, userName, reviewMessage, reviewValue })
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);
@@ -25,7 +25,7 @@ export const addReview = createAsyncThunk("review/add", async ({ productId,
 
 export const getReviews = createAsyncThunk("review/getReviews", async (productId, { rejectWithValue }) => {
     try {
-        const result = await axios.get(`http://localhost:5000/api/shopping/review/get/${productId}`)
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/shopping/review/get/${productId}`)
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);

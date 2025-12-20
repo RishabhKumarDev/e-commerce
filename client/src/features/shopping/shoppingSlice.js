@@ -11,7 +11,7 @@ const initialState = {
 export const fetchAllFilteredProducts = createAsyncThunk("shoppingProducts/fetchAllFilteredProducts", async ({ filterParams, sortParams }, { rejectWithValue }) => {
     try {
 
-        const result = await axios.get(`http://localhost:5000/api/shopping/products/get`, {
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/shopping/products/get`, {
             params: {
                 category: filterParams.category?.join(",") || "",
                 brand: filterParams.brand?.join(",") || "",
@@ -28,7 +28,7 @@ export const fetchAllFilteredProducts = createAsyncThunk("shoppingProducts/fetch
 
 export const fetchProductDetails = createAsyncThunk("shoppingProducts/fetchProductDetails", async (productID, { rejectWithValue }) => {
     try {
-        const result = await axios.get(`http://localhost:5000/api/shopping/products/get/${productID}`);
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/shopping/products/get/${productID}`);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);

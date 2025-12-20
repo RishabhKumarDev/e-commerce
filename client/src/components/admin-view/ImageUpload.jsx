@@ -52,7 +52,7 @@ function ProductImageUpload({
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/products/image-upload",
+        `${import.meta.env.VITE_API_URL}/api/admin/products/image-upload`,
         data
       );
       if (response?.data?.success) {

@@ -11,7 +11,7 @@ const initialState = {
 // register User
 export const registerUser = createAsyncThunk("/auth/register", async (formData, thunkAPI) => {
     try {
-        const response = await axios.post("http://localhost:5000/api/auth/register", formData, { withCredentials: true })
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, formData, { withCredentials: true })
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response)
@@ -22,7 +22,7 @@ export const registerUser = createAsyncThunk("/auth/register", async (formData, 
 // login User
 export const loginUser = createAsyncThunk("/auth/login", async (formData, thunkAPI) => {
     try {
-        const response = await axios.post("http://localhost:5000/api/auth/login",
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`,
             formData,
             { withCredentials: true }
         )
@@ -35,7 +35,7 @@ export const loginUser = createAsyncThunk("/auth/login", async (formData, thunkA
 // check Auth 
 export const checkAuth = createAsyncThunk("/auth/check-auth", async (_, thunkAPI) => {
     try {
-        const response = await axios.get("http://localhost:5000/api/auth/check-auth",
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
             {
                 withCredentials: true,
                 headers: { "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" }
@@ -51,7 +51,7 @@ export const checkAuth = createAsyncThunk("/auth/check-auth", async (_, thunkAPI
 
 export const logoutUser = createAsyncThunk("/auth/logoutUser", async (_, { rejectWithValue }) => {
     try {
-        const response = await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true })
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {}, { withCredentials: true })
         toast.success(response.data.message)
         return response.data;
     } catch (error) {

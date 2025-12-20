@@ -10,7 +10,7 @@ const initialState = {
 
 export const getBannerImages = createAsyncThunk("bannerSlice/getBannerImages", async (_, { rejectWithValue }) => {
     try {
-        const result = await axios.get(`http://localhost:5000/api/common/banner/get`);
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/common/banner/get`);
         return result?.data
     } catch (error) {
         return rejectWithValue(error?.response)
@@ -19,7 +19,7 @@ export const getBannerImages = createAsyncThunk("bannerSlice/getBannerImages", a
 
 export const addBannerImage = createAsyncThunk("bannerSlice/addBannerImage", async (image, { rejectWithValue }) => {
     try {
-        const result = await axios.post(`http://localhost:5000/api/common/banner/upload`, { image });
+        const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/common/banner/upload`, { image });
         return result?.data
     } catch (error) {
         return rejectWithValue(error?.response)

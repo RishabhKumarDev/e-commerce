@@ -9,7 +9,7 @@ const initialState = {
 
 export const addAddress = createAsyncThunk("address/add", async (address, { rejectWithValue }) => {
     try {
-        const result = await axios.post("http://localhost:5000/api/shopping/address/add", address);
+        const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/shopping/address/add`, address);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);
@@ -18,7 +18,7 @@ export const addAddress = createAsyncThunk("address/add", async (address, { reje
 
 export const fetchAllAddressess = createAsyncThunk("address/fetchAllAddressess", async (userId, { rejectWithValue }) => {
     try {
-        const result = await axios.get(`http://localhost:5000/api/shopping/address/get/${userId}`);
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/shopping/address/get/${userId}`);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);
@@ -27,7 +27,7 @@ export const fetchAllAddressess = createAsyncThunk("address/fetchAllAddressess",
 
 export const updateAddress = createAsyncThunk("address/update", async ({ userId, addressId, formData }, { rejectWithValue }) => {
     try {
-        const result = await axios.put(`http://localhost:5000/api/shopping/address/update/${userId}/${addressId}`, formData);
+        const result = await axios.put(`${import.meta.env.VITE_API_URL}/api/shopping/address/update/${userId}/${addressId}`, formData);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);
@@ -36,7 +36,7 @@ export const updateAddress = createAsyncThunk("address/update", async ({ userId,
 
 export const deleteAddress = createAsyncThunk("address/delete", async ({ userId, addressId }, { rejectWithValue }) => {
     try {
-        const result = await axios.delete(`http://localhost:5000/api/shopping/address/delete/${userId}/${addressId}`);
+        const result = await axios.delete(`${import.meta.env.VITE_API_URL}/api/shopping/address/delete/${userId}/${addressId}`);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);

@@ -9,7 +9,7 @@ const initialState = {
 
 export const addToCart = createAsyncThunk("shoppingCart/addToCart", async ({ userId, productId, quantity }, { rejectWithValue }) => {
     try {
-        const result = await axios.post("http://localhost:5000/api/shopping/cart/add", { userId, productId, quantity });
+        const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/shopping/cart/add`, { userId, productId, quantity });
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);
@@ -18,7 +18,7 @@ export const addToCart = createAsyncThunk("shoppingCart/addToCart", async ({ use
 
 export const fetchCartItems = createAsyncThunk("shoppingCart/fetchCartItems", async (userId, { rejectWithValue }) => {
     try {
-        const result = await axios.get(`http://localhost:5000/api/shopping/cart/get/${userId}`);
+        const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/shopping/cart/get/${userId}`);
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);
@@ -27,7 +27,7 @@ export const fetchCartItems = createAsyncThunk("shoppingCart/fetchCartItems", as
 
 export const updateCartItemQty = createAsyncThunk("shoppingCart/updateCartItemQty", async ({ userId, productId, quantity }, { rejectWithValue }) => {
     try {
-        const result = await axios.put("http://localhost:5000/api/shopping/cart/update-cart", { userId, productId, quantity })
+        const result = await axios.put(`${import.meta.env.VITE_API_URL}/api/shopping/cart/update-cart`, { userId, productId, quantity })
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response);
@@ -36,7 +36,7 @@ export const updateCartItemQty = createAsyncThunk("shoppingCart/updateCartItemQt
 
 export const deleteCartItem = createAsyncThunk("shoppingCart/deleteCartItem", async ({ userId, productId }, { rejectWithValue }) => {
     try {
-        const result = await axios.delete(`http://localhost:5000/api/shopping/cart/${userId}/${productId}`)
+        const result = await axios.delete(`${import.meta.env.VITE_API_URL}/api/shopping/cart/${userId}/${productId}`)
         return result?.data;
     } catch (error) {
         return rejectWithValue(error.response)
