@@ -31,6 +31,7 @@ import authRouter from './routes/auth/auth.routes.js';
 import { ApiResponse } from './utils/ApiResponse.js';
 import adminProductsRouter from './routes/admin/products.routes.js';
 import adminOrderRouter from './routes/admin/orders.routes.js';
+
 import shoppingProductRouter from './routes/shopping/products.routes.js';
 import shoppingCartRouter from './routes/shopping/cart.routes.js';
 import shoppingAddressRouter from './routes/shopping/address.routes.js';
@@ -38,17 +39,22 @@ import shoppingOrderRouter from './routes/shopping/order.routes.js';
 import shoppingSearchRouter from './routes/shopping/search.routes.js';
 import shoppingReviewRouter from './routes/shopping/review.routes.js';
 
+import commonBannerRouter from './routes/common/banner.routes.js';
+
 
 //router deceleration
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/admin/orders", adminOrderRouter);
+
 app.use("/api/shopping/products", shoppingProductRouter);
 app.use("/api/shopping/cart", shoppingCartRouter)
 app.use("/api/shopping/address", shoppingAddressRouter);
 app.use("/api/shopping/order", shoppingOrderRouter);
 app.use("/api/shopping/search", shoppingSearchRouter);
 app.use("/api/shopping/review", shoppingReviewRouter);
+
+app.use("/api/common/banner", commonBannerRouter);
 
 // global Error Handler (middleware);
 
