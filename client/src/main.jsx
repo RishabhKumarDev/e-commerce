@@ -7,7 +7,7 @@ import "./index.css";
 
 // components...
 import App from "./App.jsx";
-import AuthLogin from "./pages/auth/login";
+import AuthLogin from "./pages/auth/Login";
 import AuthLayout from "./components/auth/Layout";
 import AuthRegister from "./pages/auth/Register";
 import AdminOrders from "./pages/admin-view/Orders";
