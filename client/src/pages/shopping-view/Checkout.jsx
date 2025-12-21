@@ -1,4 +1,3 @@
-import banner3 from "@/assets/banner1.jpg";
 import Address from "@/components/shopping-view/Address";
 import CartItemsContent from "@/components/shopping-view/CartItemsContent";
 import { Button } from "@/components/ui/button";
@@ -81,7 +80,7 @@ function ShoppingCheckout() {
     <div className="flex flex-col">
       <div className="relative h-[300px] w-full overflow-hidden">
         <img
-          src={banner3}
+          src={"https://media.istockphoto.com/id/883125956/photo/walk-in-closet.webp?a=1&s=612x612&w=0&k=20&c=Wk4sKtH6Lj8Dczy-KqNFkw-Y6B4uAoT2DNYzqSzMQxw="}
           className="object-cover object-center w-full h-full "
         />
       </div>
