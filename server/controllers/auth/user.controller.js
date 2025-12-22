@@ -48,7 +48,8 @@ const loginUser = async (req, res) => {
             userName: user.userName,
             email: user.email,
             role: user.role,
-            _id: user._id
+            _id: user._id,
+            token
         },
             "Logged In Successfully"
         ))
@@ -62,8 +63,26 @@ const logoutUser = async (req, res) => {
         .json(new ApiResponse(200, {}, "Logout successful"))
 }
 
+/*
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
+    if (!token) {
+        throw new ApiError(401, "Unauthorized User")
+    }
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        throw new ApiError(401, "Unauthorized User")
+    }
+}
+ */
+
+const authMiddleware = async (req, res, next) => {
+    
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(" ")[1]
     if (!token) {
         throw new ApiError(401, "Unauthorized User")
     }

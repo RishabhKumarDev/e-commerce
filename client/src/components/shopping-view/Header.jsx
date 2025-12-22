@@ -12,7 +12,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { shoppingViewHeaderMenuItems } from "@/config/formConfig";
-import { logoutUser } from "@/features/auth/authSlice";
+import { logoutUser, resetTokenAndCredentials } from "@/features/auth/authSlice";
 import { fetchCartItems } from "@/features/shopping/cartSlice";
 import { CircleUser, Home, LogOut, Menu, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -64,7 +64,10 @@ function HeaderRightContent() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
-    dispatch(logoutUser());
+    // dispatch(logoutUser());
+    dispatch(resetTokenAndCredentials());
+    sessionStorage.clear();
+    navigate("/auth/login")
   };
 
   useEffect(() => {

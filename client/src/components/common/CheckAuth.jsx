@@ -14,7 +14,8 @@ function CheckAuth({ children }) {
 
   useEffect(() => {
     if (!isAuthanticated && !user) {
-      dispatch(checkAuth());
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      dispatch(checkAuth(token));
     }
   }, []);
 

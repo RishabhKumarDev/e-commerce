@@ -18,9 +18,9 @@ function AuthLogin() {
 
     try {
       const data = await dispatch(loginUser(formData)).unwrap();
-      toast.success(data.message);
+      toast.success(data?.message);
     } catch (error) {
-      toast.error(error.data.message || "Something went worong");
+      toast.error(error?.data?.message || "Something went worong");
     }
   };
   return (
