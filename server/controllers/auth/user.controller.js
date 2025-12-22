@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
     res.status(200)
         .cookie("token", token, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             maxAge: 60 * 60 * 1000
         })
         .json(new ApiResponse(200, {
